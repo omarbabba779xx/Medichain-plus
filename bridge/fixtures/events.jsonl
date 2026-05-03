@@ -1,0 +1,5 @@
+{"name":"RecordCreated","payload":{"id":"rec-1","patientDID":"did:pat:salma","issuerDID":"did:doc:karim","issuerMSP":"HospitalMSP"},"blockNum":42,"txId":"tx-rec-1"}
+{"name":"ConsentGranted","payload":{"id":"c-1","patientDID":"did:pat:salma","granteeDID":"did:doc:karim","scope":"read:all"},"blockNum":43,"txId":"tx-c-1"}
+{"name":"PrescriptionIssued","payload":{"rxId":"rx-001","patientAddress":"0x742d35Cc6634C0532925a3b844Bc454e4438f44e","diagnosisHash":"0xabc123abc123abc123abc123abc123abc123abc123abc123abc123abc123abc1","amount":150000,"medication":"Amoxicillin 500mg","doctorDID":"did:doc:karim"},"blockNum":44,"txId":"tx-rx-1"}
+{"name":"PrescriptionDispensed","payload":{"rxId":"rx-001","hash":"0xabc123abc123abc123abc123abc123abc123abc123abc123abc123abc123abc1","dispenserDID":"did:pharm:andalous","patientDID":"did:pat:salma"},"blockNum":45,"txId":"tx-rx-disp-1"}
+{"name":"ConsentRevoked","payload":{"id":"c-1","patientDID":"did:pat:salma"},"blockNum":46,"txId":"tx-c-rev-1"}

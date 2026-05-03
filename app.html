@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>MediChain+ — Démo Interactive</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="app.css"/>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/ethers@6.13.2/dist/ethers.umd.min.js"></script>
+<link rel="manifest" href="manifest.json"/>
+<meta name="theme-color" content="#10b981"/>
+<meta name="mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="apple-mobile-web-app-title" content="MediChain+"/>
+</head>
+<body>
+
+<!-- DEMO MODE BANNER -->
+<div id="demoModeBanner" style="position:fixed;top:0;left:0;right:0;z-index:9999;background:linear-gradient(90deg,#f59e0b,#fb923c);color:#fff;text-align:center;padding:6px 12px;font-size:12px;font-weight:600;letter-spacing:.2px;box-shadow:0 2px 8px rgba(251,146,60,.4);font-family:'Inter',system-ui,sans-serif">
+  🧪 <strong>DEMO MODE</strong> &mdash; Simulation locale : transactions blockchain fictives, wallet pseudo-aléatoire si MetaMask absent. Le smart contract est déployé sur <a href="https://amoy.polygonscan.com" target="_blank" style="color:#fff;text-decoration:underline">Polygon Amoy testnet</a>.
+  <button onclick="document.getElementById('demoModeBanner').style.display='none';document.body.style.paddingTop='0'" style="margin-left:12px;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.4);color:#fff;border-radius:4px;padding:2px 8px;cursor:pointer;font-size:11px">×</button>
+</div>
+<script>document.body.style.paddingTop='34px';</script>
+
+<!-- SPLASH SCREEN -->
+<div id="splash">
+  <div class="splash-content">
+    <div class="splash-logo">⚕</div>
+    <div class="splash-name">MediChain+</div>
+    <div class="splash-bar"><div class="splash-fill"></div></div>
+    <div class="splash-msg">Initialisation du réseau blockchain…</div>
+  </div>
+</div>
+
+<!-- TIMER OVERLAY -->
+<div id="timerOverlay" class="timer-overlay hidden">
+  <div class="timer-box">
+    <div class="timer-icon">💰</div>
+    <div class="timer-title">Remboursement en cours</div>
+    <div class="timer-count" id="timerCount">90</div>
+    <div class="timer-unit">secondes</div>
+    <div class="timer-sub">Oracle validant le diagnostic sur Polygon…</div>
+    <div class="timer-progress"><div class="timer-bar" id="timerBar"></div></div>
+  </div>
+</div>
+
+<!-- CHATBOT -->
+<div id="chatbotBtn" class="chatbot-btn" title="Assistant MediChain+">💬</div>
+<div id="chatPanel" class="chat-panel hidden">
+  <div class="chat-head">
+    <span>🤖 Assistant MediChain+</span>
+    <button id="chatClose">×</button>
+  </div>
+  <div class="chat-messages" id="chatMessages">
+    <div class="chat-msg bot">Bonjour ! Je suis l'assistant MediChain+. Posez-moi une question sur le projet 👋</div>
+  </div>
+  <div class="chat-input-row">
+    <input id="chatInput" type="text" placeholder="Votre question…"/>
+    <button id="chatSend">→</button>
+  </div>
+</div>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-ico">⚕</span>
+    <div>
+      <div class="brand-name">MediChain+</div>
+      <div class="brand-sub">Démo interactive</div>
+    </div>
+  </div>
+  <nav class="persona-switch">
+    <button class="persona active" data-persona="patient"><span>👤</span>Patient</button>
+    <button class="persona" data-persona="doctor"><span>🩺</span>Médecin</button>
+    <button class="persona" data-persona="pharmacy"><span>💊</span>Pharmacie</button>
+    <button class="persona" data-persona="insurer"><span>💼</span>Assureur</button>
+    <button class="persona" data-persona="network"><span>⛓️</span>Réseau</button>
+  </nav>
+  <div class="actions">
+    <button id="walletBtn" class="btn-ghost" title="Connecter MetaMask">🦊 Connecter</button>
+    <button id="tourBtn" class="btn-ghost" title="Tour guidé">🗺️</button>
+    <button id="shareBtn" class="btn-ghost" title="Partager">📤</button>
+    <button id="langBtn" class="btn-ghost" title="Langue">🌐 EN</button>
+    <button id="darkBtn" class="btn-ghost" title="Mode sombre">🌙</button>
+    <button id="soundBtn" class="btn-ghost" title="Sons">🔔</button>
+    <button id="resetBtn" class="btn-ghost" title="Réinitialiser">↻</button>
+    <a href="index.html" class="btn-ghost">←</a>
+  </div>
+</header>
+
+<nav class="mobile-tabbar">
+  <button class="tab active" data-persona="patient"><span>👤</span><small>Patient</small></button>
+  <button class="tab" data-persona="doctor"><span>🩺</span><small>Médecin</small></button>
+  <button class="tab" data-persona="pharmacy"><span>💊</span><small>Pharmacie</small></button>
+  <button class="tab" data-persona="insurer"><span>💼</span><small>Assureur</small></button>
+  <button class="tab" data-persona="network"><span>⛓️</span><small>Réseau</small></button>
+</nav>
+
+<main id="app">
+
+  <!-- PATIENT VIEW -->
+  <section class="view active" id="view-patient">
+    <div class="view-head animate-in">
+      <div>
+        <h1 data-fr="Tableau de bord — Salma Ben Ali" data-en="Dashboard — Salma Ben Ali" data-ar="لوحة التحكم — سلمى بن علي">Tableau de bord — Salma Ben Ali</h1>
+        <p class="muted">Patiente diabétique type 2 · DID : <code id="patientDid">did:indy:...</code></p>
+      </div>
+      <div class="balance">
+        <div class="balance-label" data-fr="Solde wallet" data-en="Wallet balance" data-ar="رصيد المحفظة">Solde wallet</div>
+        <div class="balance-value"><span id="patientBalance">0.00</span> USDC</div>
+      </div>
+    </div>
+
+    <div class="grid-3">
+      <div class="card animate-in">
+        <div class="card-head"><span class="card-ico">📡</span><h3 data-fr="Capteur IoT (Glucomètre)" data-en="IoT Sensor (Glucometer)" data-ar="مستشعر IoT (جهاز قياس السكر)">Capteur IoT (Glucomètre)</h3></div>
+        <div class="sensor">
+          <div class="gauge" id="gaugeBox">
+            <div class="gauge-value" id="glucoseValue">1.20</div>
+            <div class="gauge-unit">g/L</div>
+            <div class="gauge-state" id="glucoseState">Normal</div>
+          </div>
+          <div class="sensor-actions">
+            <button class="btn-primary" id="simulateNormal" data-fr="Mesure normale" data-en="Normal reading" data-ar="قياس طبيعي">Mesure normale</button>
+            <button class="btn-warn" id="simulateHigh" data-fr="⚠ Hyperglycémie" data-en="⚠ Hyperglycemia" data-ar="⚠ ارتفاع السكر">⚠ Hyperglycémie</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card animate-in">
+        <div class="card-head"><span class="card-ico">📈</span><h3 data-fr="Courbe Glycémie (temps réel)" data-en="Blood Sugar Chart (real-time)" data-ar="منحنى السكر (الوقت الفعلي)">Courbe Glycémie (temps réel)</h3></div>
+        <div class="chart-wrap"><canvas id="glucoseChart"></canvas></div>
+      </div>
+
+      <div class="card animate-in">
+        <div class="card-head"><span class="card-ico">🔐</span><h3 data-fr="Consentements actifs" data-en="Active consents" data-ar="الموافقات النشطة">Consentements actifs</h3></div>
+        <div id="consentList" class="consents"></div>
+        <button class="btn-primary" id="grantConsentBtn" data-fr="+ Accorder un accès" data-en="+ Grant access" data-ar="+ منح الوصول">+ Accorder un accès</button>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card animate-in">
+        <div class="card-head"><span class="card-ico">🏥</span><h3 data-fr="Dossier médical" data-en="Medical records" data-ar="السجل الطبي">Dossier médical</h3></div>
+        <div id="recordList" class="records"></div>
+      </div>
+      <div class="card animate-in">
+        <div class="card-head"><span class="card-ico">📜</span><h3 data-fr="Ordonnances" data-en="Prescriptions" data-ar="الوصفات الطبية">Ordonnances</h3></div>
+        <div id="prescriptionList" class="prescriptions"></div>
+      </div>
+    </div>
+
+    <div class="card animate-in">
+      <div class="card-head"><span class="card-ico">💰</span><h3 data-fr="Remboursements DeFi" data-en="DeFi Reimbursements" data-ar="تسديدات DeFi">Remboursements DeFi</h3></div>
+      <div id="claimList" class="claims"></div>
+    </div>
+  </section>
+
+  <!-- DOCTOR VIEW -->
+  <section class="view" id="view-doctor">
+    <div class="view-head animate-in">
+      <div>
+        <h1 data-fr="Espace Médecin — Dr. Karim Hassan" data-en="Doctor Portal — Dr. Karim Hassan" data-ar="فضاء الطبيب — د. كريم حسان">Espace Médecin — Dr. Karim Hassan</h1>
+        <p class="muted">Endocrinologue · Hôpital Central · Organisation : Org1.Hospital</p>
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="card animate-in">
+        <div class="card-head"><span class="card-ico">🔔</span><h3 data-fr="Alertes patients" data-en="Patient alerts">Alertes patients</h3></div>
+        <div id="doctorAlerts" class="alerts"></div>
+      </div>
+      <div class="card animate-in">
+        <div class="card-head"><span class="card-ico">📊</span><h3 data-fr="Accès Dossier Patient" data-en="Patient Record Access">Accès Dossier Patient</h3></div>
+        <div id="doctorAccess" class="doctor-access">
+          <p class="muted">Aucun consentement reçu. Accordez l'accès depuis la vue Patient.</p>
+        </div>
+      </div>
+    </div>
+    <div class="card animate-in">
+      <div class="card-head"><span class="card-ico">✍️</span><h3 data-fr="Émettre une ordonnance" data-en="Issue a prescription">Émettre une ordonnance</h3></div>
+      <div class="prescription-form">
+        <select id="rxPatient"><option value="salma">Salma Ben Ali (did:indy:xyz123)</option></select>
+        <select id="rxMed">
+          <option value="Insuline rapide 100 UI/ml">Insuline rapide 100 UI/ml</option>
+          <option value="Metformine 850 mg">Metformine 850 mg</option>
+          <option value="Glimepiride 4 mg">Glimepiride 4 mg</option>
+        </select>
+        <input type="text" id="rxDose" value="10 UI matin et soir"/>
+        <input type="number" id="rxPrice" value="50" min="1"/>
+        <button class="btn-primary" id="signRxBtn" data-fr="🔏 Signer & envoyer" data-en="🔏 Sign & send" data-ar="🔏 توقيع وإرسال">🔏 Signer & envoyer</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- PHARMACY VIEW -->
+  <section class="view" id="view-pharmacy">
+    <div class="view-head animate-in">
+      <div>
+        <h1 data-fr="Espace Pharmacie — Al-Andalous" data-en="Pharmacy Portal — Al-Andalous">Espace Pharmacie — Al-Andalous</h1>
+        <p class="muted">Organisation : Org3.Pharmacy · Licence # PH-2026-0442</p>
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="card animate-in">
+        <div class="card-head"><span class="card-ico">📥</span><h3>Ordonnances entrantes</h3></div>
+        <div id="pharmacyInbox" class="inbox"></div>
+      </div>
+      <div class="card animate-in">
+        <div class="card-head"><span class="card-ico">🔍</span><h3>Vérifier un médicament</h3></div>
+        <div class="qr-verifier">
+          <div class="qr-input-row">
+            <input type="text" id="qrInput" placeholder="Code médicament (ex: MED-INS-2024-88421)"/>
+            <button class="btn-primary" id="verifyQrBtn">Vérifier</button>
+          </div>
+          <div id="qrResult"></div>
+          <div id="qrCodeDisplay" class="qr-code-box hidden">
+            <div id="qrCodeCanvas"></div>
+            <div class="qr-code-label" id="qrCodeLabel"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card animate-in">
+      <div class="card-head"><span class="card-ico">📦</span><h3>Stock & Traçabilité</h3></div>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead><tr><th>Code</th><th>Médicament</th><th>Lot</th><th>Fabricant</th><th>Chaîne</th><th>QR</th><th>Statut</th></tr></thead>
+          <tbody id="stockTable"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- INSURER VIEW -->
+  <section class="view" id="view-insurer">
+    <div class="view-head animate-in">
+      <div>
+        <h1 data-fr="Espace Assureur — SantéSûre SA" data-en="Insurer Portal — SantéSûre SA">Espace Assureur — SantéSûre SA</h1>
+        <p class="muted">Contrat multi-sig · Couverture 85 % · Stablecoin USDC</p>
+      </div>
+      <div class="balance">
+        <div class="balance-label">Trésorerie contrat</div>
+        <div class="balance-value"><span id="insurerBalance">10000.00</span> USDC</div>
+      </div>
+    </div>
+    <div class="grid-2" style="margin-bottom:18px">
+      <div class="card stat-card animate-in">
+        <div class="stat-v" id="statTotal">0</div>
+        <div class="stat-l">Réclamations totales</div>
+      </div>
+      <div class="card stat-card animate-in">
+        <div class="stat-v" id="statPaid">0</div>
+        <div class="stat-l">Remboursements effectués</div>
+      </div>
+    </div>
+    <div class="card animate-in">
+      <div class="card-head"><span class="card-ico">📋</span><h3>Réclamations</h3></div>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead><tr><th>ID</th><th>Patient</th><th>Hash Diagnostic</th><th>Montant</th><th>Statut</th><th>Action</th></tr></thead>
+          <tbody id="insurerClaims"></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="card animate-in" style="margin-top:18px">
+      <div class="card-head"><span class="card-ico">📊</span><h3>Activité remboursements</h3></div>
+      <div class="chart-wrap"><canvas id="claimsChart"></canvas></div>
+    </div>
+  </section>
+
+  <!-- NETWORK VIEW -->
+  <section class="view" id="view-network">
+    <div class="view-head animate-in">
+      <div>
+        <h1>Réseau Blockchain</h1>
+        <p class="muted">Journal immuable — Hyperledger Fabric + Polygon</p>
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="card net-card animate-in">
+        <div class="card-head"><span class="card-ico">🏥</span><h3>Hyperledger Fabric</h3></div>
+        <div class="net-stats">
+          <div><span id="fabricBlocks">0</span><small>Blocs</small></div>
+          <div><span id="fabricTx">0</span><small>Tx</small></div>
+          <div><span>3</span><small>Orgs</small></div>
+        </div>
+        <div id="fabricLog" class="tx-log"></div>
+      </div>
+      <div class="card net-card animate-in">
+        <div class="card-head"><span class="card-ico">💎</span><h3>Polygon Amoy — Smart Contract</h3></div>
+        <div class="net-stats">
+          <div><span id="polyBlocks">0</span><small>Blocs</small></div>
+          <div><span id="polyTx">0</span><small>Tx</small></div>
+          <div><span id="polyGas">0</span><small>Gas</small></div>
+        </div>
+        <div style="padding:8px 12px;background:rgba(16,185,129,.08);border-radius:8px;margin:8px 0;font-size:11px;border:1px solid rgba(16,185,129,.2)">
+          <span style="color:#10b981;font-weight:700">⛓️ DÉPLOYÉ SUR TESTNET RÉEL</span><br/>
+          <span style="color:#64748b">Contract : </span>
+          <a href="https://amoy.polygonscan.com/address/0x8Abba481989476ea2C917337bCce07C2C48cd725"
+             target="_blank" style="color:#3b82f6;font-family:monospace;font-size:10px">
+            0x8Abba…cd725 ↗
+          </a>
+        </div>
+        <div id="polyLog" class="tx-log"></div>
+      </div>
+    </div>
+    <div class="card animate-in" style="margin-bottom:16px">
+      <div class="card-head"><span class="card-ico">📈</span><h3>Activité réseau (temps réel)</h3></div>
+      <div class="chart-wrap"><canvas id="netChart"></canvas></div>
+    </div>
+    <div class="card animate-in">
+      <div class="card-head"><span class="card-ico">🔬</span><h3>Inspecteur de bloc</h3></div>
+      <pre id="blockInspector" class="code-block">Cliquez sur une transaction pour l'inspecter…</pre>
+    </div>
+  </section>
+
+</main>
+
+<div id="toastContainer" class="toast-container"></div>
+
+<div id="modalBackdrop" class="modal-backdrop hidden">
+  <div class="modal">
+    <div class="modal-head">
+      <h3 id="modalTitle">Accorder un accès</h3>
+      <button class="modal-close" id="modalClose">×</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<div id="tooltipEl" class="global-tooltip"></div>
+
+<script src="app.js"></script>
+</body>
+</html>

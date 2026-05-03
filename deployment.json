@@ -1,0 +1,9 @@
+{
+  "network": "amoy",
+  "chainId": "80002",
+  "deployer": "0x4b3d2407d0A6bEE0512f63ad8104BF0BBF7caC76",
+  "MockUSDC": "0x6E93211E162012B21a57661166eB36ADE5Aa5Bb9",
+  "Insurance": "0x8Abba481989476ea2C917337bCce07C2C48cd725",
+  "deployedAt": "2026-04-21T22:11:10.749Z",
+  "explorer": "https://amoy.polygonscan.com/address/0x8Abba481989476ea2C917337bCce07C2C48cd725"
+}

@@ -1,0 +1,194 @@
+name: CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+jobs:
+  # 0. Secrets scan
+  secrets:
+    name: "Gitleaks secrets scan"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Install Gitleaks
+        run: |
+          curl -sSL https://github.com/gitleaks/gitleaks/releases/download/v8.18.4/gitleaks_8.18.4_linux_x64.tar.gz \
+            | tar -xz gitleaks
+          sudo mv gitleaks /usr/local/bin/
+      - name: Run Gitleaks
+        run: gitleaks detect --source . --redact --no-git=false
+  # 1. Solidity compile + test + coverage
+  solidity:
+    name: "Solidity Hardhat tests"
+    runs-on: ubuntu-latest
+    needs: secrets
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - run: npm ci --legacy-peer-deps || npm install --legacy-peer-deps
+      - run: npx hardhat compile
+      - run: npx hardhat test
+      - name: Coverage
+        run: npx hardhat coverage
+        continue-on-error: true
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: solidity-coverage
+          path: coverage/
+          retention-days: 14
+  # 2. Slither static analysis
+  slither:
+    name: "Slither static analysis"
+    runs-on: ubuntu-latest
+    needs: solidity
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - run: npm ci --legacy-peer-deps || npm install --legacy-peer-deps
+      - name: Run Slither
+        uses: crytic/slither-action@v0.4.0
+        id: slither
+        with:
+          node-version: "20"
+          sarif: slither.sarif
+          fail-on: high
+          slither-args: "--exclude-dependencies --filter-paths node_modules,test,artifacts,cache"
+      - name: Upload SARIF
+        if: always()
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: ${{ steps.slither.outputs.sarif }}
+        continue-on-error: true
+  # 3. Go chaincode build + test
+  chaincode:
+    name: "Chaincode Go build + test"
+    runs-on: ubuntu-latest
+    needs: secrets
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.21"
+          cache: false
+      - name: Tidy + build (root chaincode)
+        working-directory: chaincode
+        env:
+          GOPROXY: "https://proxy.golang.org,direct"
+          GONOSUMDB: "*"
+        run: |
+          go mod tidy
+          go build ./...
+      - name: Test
+        working-directory: chaincode
+        env:
+          GOPROXY: "https://proxy.golang.org,direct"
+          GONOSUMDB: "*"
+        run: go test -v -race -coverprofile=coverage.out ./...
+      - name: Tidy + build (medichain CCaaS)
+        working-directory: chaincode/medichain
+        env:
+          GOPROXY: "https://proxy.golang.org,direct"
+          GONOSUMDB: "*"
+        run: |
+          go mod tidy
+          go build ./...
+        continue-on-error: true
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: chaincode-coverage
+          path: chaincode/coverage.out
+          retention-days: 14
+  # 4. Bridge relayer smoke test
+  bridge:
+    name: "Bridge smoke test"
+    runs-on: ubuntu-latest
+    needs: secrets
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - run: npm install
+        working-directory: bridge
+      - name: Mock mode smoke test
+        working-directory: bridge
+        run: node relayer.js --mode=mock --once
+        env:
+          RELAYER_MODE: mock
+  # 5. Solhint style lint
+  solhint:
+    name: "Solhint style lint"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - run: npm ci --legacy-peer-deps || npm install --legacy-peer-deps
+      - run: npx solhint "contracts/**/*.sol" --formatter stylish
+        continue-on-error: true
+  # 6. Mythril symbolic execution
+  mythril:
+    name: "Mythril symbolic execution"
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker pull mythril/myth:latest
+      - run: |
+          docker run --rm -v "$PWD":/src mythril/myth analyze \
+            /src/contracts/MediChainInsurance.sol \
+            --solv 0.8.20 --execution-timeout 180 --max-depth 12 \
+            -o markdown > mythril-report.md || true
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: mythril-report
+          path: mythril-report.md
+          retention-days: 30
+  # 7. Semgrep SAST
+  semgrep:
+    name: "Semgrep SAST"
+    runs-on: ubuntu-latest
+    container: returntocorp/semgrep
+    steps:
+      - uses: actions/checkout@v4
+      - run: semgrep --config=.semgrep.yml --sarif --output=semgrep.sarif || true
+      - run: semgrep --config=p/security-audit --sarif --output=semgrep-audit.sarif || true
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: semgrep-reports
+          path: "semgrep*.sarif"
+          retention-days: 30
+  # Status gate
+  status:
+    name: "Pipeline status"
+    runs-on: ubuntu-latest
+    needs: [secrets, solidity, slither, chaincode, bridge, solhint, semgrep]
+    if: always()
+    steps:
+      - name: Evaluate results
+        run: |
+          echo "secrets  = ${{ needs.secrets.result }}"
+          echo "solidity = ${{ needs.solidity.result }}"
+          echo "slither  = ${{ needs.slither.result }}"
+          echo "chaincode= ${{ needs.chaincode.result }}"
+          echo "bridge   = ${{ needs.bridge.result }}"
+          if [ "${{ needs.secrets.result }}"   = "failure" ] || \
+             [ "${{ needs.solidity.result }}"  = "failure" ] || \
+             [ "${{ needs.chaincode.result }}" = "failure" ] || \
+             [ "${{ needs.bridge.result }}"    = "failure" ]; then
+            echo "::error::Critical job failed"
+            exit 1
+          fi

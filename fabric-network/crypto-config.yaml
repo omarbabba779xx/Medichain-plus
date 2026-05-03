@@ -1,0 +1,22 @@
+OrdererOrgs:
+  - Name: Orderer
+    Domain: medichain.com
+    Specs:
+      - Hostname: orderer
+
+PeerOrgs:
+  - Name: Hospital
+    Domain: hospital.medichain.com
+    EnableNodeOUs: true
+    Template:
+      Count: 1
+    Users:
+      Count: 2   # Dr. Ahmed + Infirmier
+
+  - Name: Pharmacy
+    Domain: pharmacy.medichain.com
+    EnableNodeOUs: true
+    Template:
+      Count: 1
+    Users:
+      Count: 1

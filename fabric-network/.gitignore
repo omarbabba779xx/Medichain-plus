@@ -1,0 +1,9 @@
+# Certificats crypto générés (contiennent des clés privées)
+crypto-config/ordererOrganizations/
+crypto-config/peerOrganizations/
+
+# Données Explorer
+explorer-data/
+
+# Logs
+*.log

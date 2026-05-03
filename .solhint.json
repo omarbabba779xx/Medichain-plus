@@ -1,0 +1,20 @@
+{
+  "extends": "solhint:recommended",
+  "rules": {
+    "compiler-version": ["error", "^0.8.20"],
+    "func-visibility": ["error", { "ignoreConstructors": true }],
+    "max-line-length": ["warn", 140],
+    "no-empty-blocks": "off",
+    "no-inline-assembly": "warn",
+    "avoid-low-level-calls": "warn",
+    "avoid-tx-origin": "error",
+    "not-rely-on-time": "warn",
+    "state-visibility": "error",
+    "reason-string": ["warn", { "maxLength": 64 }],
+    "check-send-result": "error",
+    "reentrancy": "error",
+    "const-name-snakecase": "error",
+    "func-name-mixedcase": "error",
+    "contract-name-camelcase": "error"
+  }
+}

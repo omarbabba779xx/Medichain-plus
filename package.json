@@ -1,0 +1,41 @@
+{
+  "name": "medichain-plus",
+  "version": "1.0.0",
+  "description": "MediChain+ — Projet Blockchain Santé, Sécurité & DeFi",
+  "scripts": {
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "deploy:local": "hardhat run scripts/deploy.js --network localhost",
+    "deploy:amoy": "hardhat run scripts/deploy.js --network amoy",
+    "verify:amoy": "hardhat verify --network amoy",
+    "node": "hardhat node",
+    "coverage": "hardhat coverage",
+    "gas-report": "REPORT_GAS=true hardhat test",
+    "solhint": "solhint 'contracts/**/*.sol'",
+    "slither": "slither . --config-file slither.config.json",
+    "semgrep": "semgrep --config=.semgrep.yml --severity=WARNING --severity=ERROR",
+    "mythril": "docker run --rm -v $PWD:/src mythril/myth analyze /src/contracts/MediChainInsurance.sol --solv 0.8.20",
+    "surya:inheritance": "surya inheritance contracts/MediChainInsurance.sol | dot -Tpng > docs/audit/inheritance.png || true",
+    "surya:graph": "surya graph contracts/MediChainInsurance.sol | dot -Tpng > docs/audit/call-graph.png || true",
+    "surya:describe": "surya describe contracts/MediChainInsurance.sol > docs/audit/describe.md",
+    "audit:all": "npm run solhint && npm run slither && npm run semgrep && npm run surya:describe",
+    "e2e": "node test/e2e/full-flow.mjs"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^4.0.0",
+    "hardhat": "^2.22.0",
+    "hardhat-gas-reporter": "^2.2.0",
+    "chai": "^4.4.0",
+    "ethers": "^6.11.0",
+    "dotenv": "^16.4.0",
+    "solhint": "^5.0.3",
+    "solidity-coverage": "^0.8.12"
+  },
+  "optionalDependencies": {
+    "surya": "^0.4.12"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^4.9.3"
+  },
+  "license": "MIT"
+}

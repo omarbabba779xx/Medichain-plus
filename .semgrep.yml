@@ -1,0 +1,61 @@
+# Semgrep rules for MediChain+
+# Combines community Solidity/JS rules + custom project rules.
+
+rules:
+  # ────────────────────── Solidity ──────────────────────
+  - id: solidity-tx-origin
+    pattern: tx.origin
+    message: "Usage of `tx.origin` is discouraged — prefer `msg.sender`. Can be bypassed by phishing contracts."
+    severity: ERROR
+    languages: [generic]
+    paths:
+      include: ["*.sol"]
+
+  - id: solidity-raw-transfer
+    pattern-either:
+      - pattern: $X.transfer($Y)
+      - pattern: $X.send($Y)
+    message: "Prefer `call{value: ...}('')` with `ReentrancyGuard` and check the return value. `.transfer()` is capped at 2300 gas."
+    severity: WARNING
+    languages: [generic]
+    paths:
+      include: ["*.sol"]
+
+  - id: solidity-block-timestamp
+    pattern: block.timestamp
+    message: "block.timestamp can be manipulated by miners within ~15s. Do not use for security-critical checks."
+    severity: INFO
+    languages: [generic]
+    paths:
+      include: ["*.sol"]
+
+  # ────────────────────── JavaScript (frontend) ──────────────────────
+  - id: js-math-random-for-id
+    pattern-either:
+      - pattern: Math.random()
+    message: "Math.random() is not cryptographically secure. Use crypto.getRandomValues() for security-relevant ids."
+    severity: INFO
+    languages: [javascript]
+    paths:
+      include: ["app.js", "*.js"]
+      exclude: ["app.test.js", "bridge/**"]
+
+  - id: js-innerhtml-sink
+    pattern-either:
+      - pattern: $X.innerHTML = $Y
+      - pattern: document.write($Y)
+    message: "innerHTML / document.write are XSS sinks. Prefer textContent or sanitized templating."
+    severity: WARNING
+    languages: [javascript]
+    paths:
+      include: ["*.js", "*.html"]
+
+  # ────────────────────── Go chaincode ──────────────────────
+  - id: go-fmt-error-wrap-missing
+    pattern-either:
+      - pattern: fmt.Errorf("$STR")
+    message: "Consider using fmt.Errorf(\"... %w\", err) to preserve the error chain."
+    severity: INFO
+    languages: [go]
+    paths:
+      include: ["chaincode/**"]

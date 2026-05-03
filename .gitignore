@@ -1,0 +1,23 @@
+node_modules/
+bridge/node_modules/
+.env
+.env.local
+.env.*.local
+cache/
+artifacts/
+typechain-types/
+coverage/
+coverage.json
+coverage.out
+.DS_Store
+Thumbs.db
+*.log
+dist/
+build/
+
+# Go
+chaincode/*.test
+chaincode/go.sum
+deployment.json
+.claude/
+.windsurf/

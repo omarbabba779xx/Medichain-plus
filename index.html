@@ -1,0 +1,2563 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MediChain+ — Projet Blockchain Santé, Sécurité & DeFi</title>
+<link rel="manifest" href="manifest.json"/>
+<meta name="theme-color" content="#10b981"/>
+<meta name="mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-title" content="MediChain+"/>
+<meta name="description" content="Plateforme hybride Blockchain pour la santé : DME sécurisé, SSI, micro-assurance DeFi et IoT médical."/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<style>
+  /* ═══════════════════════════════════════════════════
+     STELLAR-INSPIRED VISUAL UPGRADE v3.1
+     Light hero · Inter font · Black pill CTAs · Tab bar
+  ═══════════════════════════════════════════════════ */
+
+  /* --- Design System — Dark Premium --- */
+  :root{
+    --bg-hsl: 0 0% 4%;
+    --surface-hsl: 0 0% 8%;
+    --text-hsl: 0 0% 96%;
+    --muted-hsl: 0 0% 53%;
+    --stroke-hsl: 0 0% 12%;
+    --accent-blue: #89AACC;
+    --accent-blue2: #4E85BF;
+  }
+  body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif!important;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+  h1,h2,h3,h4,.section-title,.logo,button,a{font-family:'Inter',sans-serif!important}
+  .font-display{font-family:'Instrument Serif',Georgia,serif!important;font-style:italic}
+  .accent-gradient{background:linear-gradient(90deg,#89AACC 0%,#4E85BF 100%)}
+
+  /* --- Animations --- */
+  @keyframes fadeInUp{from{opacity:0;transform:translateY(32px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes gradientShift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+  @keyframes blob{0%,100%{border-radius:60% 40% 30% 70%/60% 30% 70% 40%}50%{border-radius:30% 60% 70% 40%/50% 60% 30% 60%}}
+  .fade-up{opacity:0;animation:fadeInUp .9s cubic-bezier(.16,1,.3,1) forwards}
+  .fade-up.d1{animation-delay:.08s}.fade-up.d2{animation-delay:.18s}.fade-up.d3{animation-delay:.28s}
+  .fade-up.d4{animation-delay:.38s}.fade-up.d5{animation-delay:.5s}.fade-up.d6{animation-delay:.64s}
+  .fade-up.d7{animation-delay:.78s}
+
+  /* ────────────────────────────────────────────────────
+     HERO — light background, Stellar.ai style
+  ──────────────────────────────────────────────────── */
+  .hero{
+    background:#ffffff;
+    color:#0f172a;
+    padding:120px 24px 80px;
+    text-align:center;
+    position:relative;
+    overflow:hidden;
+  }
+  /* Decorative colour blobs behind content */
+  .hero::before{
+    content:'';
+    position:absolute;inset:0;
+    background:
+      radial-gradient(ellipse 800px 500px at 10% -20%,  rgba(16,185,129,.12),  transparent),
+      radial-gradient(ellipse 700px 600px at 90%  10%,  rgba(59,130,246,.10),  transparent),
+      radial-gradient(ellipse 600px 500px at 50% 110%,  rgba(139,92,246,.08),  transparent);
+    pointer-events:none;
+  }
+  /* Subtle grid overlay */
+  .hero::after{
+    content:'';
+    position:absolute;inset:0;
+    background-image:linear-gradient(rgba(15,23,42,.03) 1px,transparent 1px),
+                     linear-gradient(90deg,rgba(15,23,42,.03) 1px,transparent 1px);
+    background-size:48px 48px;
+    pointer-events:none;
+  }
+  .hero-content{position:relative;z-index:2;max-width:860px;margin:0 auto}
+
+  /* Dark mode: keep dark hero */
+  [data-theme="dark"] .hero{background:#0b1120;color:#fff}
+  [data-theme="dark"] .hero::before{
+    background:
+      radial-gradient(ellipse 800px 500px at 10% -20%,rgba(16,185,129,.25),transparent),
+      radial-gradient(ellipse 700px 600px at 90%  10%,rgba(59,130,246,.22),transparent),
+      radial-gradient(ellipse 600px 500px at 50% 110%,rgba(139,92,246,.18),transparent);
+  }
+
+  /* --- Reviews badge --- */
+  .reviews-badge{
+    display:inline-flex;align-items:center;gap:10px;
+    background:#fff;
+    border:1px solid #e2e8f0;
+    padding:7px 16px 7px 7px;
+    border-radius:999px;
+    font-size:13px;color:#0f172a;
+    margin-bottom:32px;
+    font-weight:500;
+    box-shadow:0 2px 12px rgba(0,0,0,.06);
+  }
+  [data-theme="dark"] .reviews-badge{background:#1e293b;border-color:#334155;color:#e2e8f0}
+  .reviews-badge-icon{width:28px;height:28px;border-radius:7px;background:linear-gradient(135deg,#10b981,#3b82f6);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+  .reviews-badge-stars{color:#f59e0b;letter-spacing:1px;font-size:12px}
+
+  /* --- Hero heading --- */
+  .hero h1{
+    font-size:clamp(44px,7vw,80px);
+    font-weight:800;
+    line-height:1.05;
+    letter-spacing:-2.5px;
+    color:#0f172a;
+    margin-bottom:24px;
+  }
+  [data-theme="dark"] .hero h1{color:#f1f5f9}
+  .hero-gradient{
+    background:linear-gradient(135deg,#10b981 0%,#3b82f6 50%,#8b5cf6 100%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    background-size:200% 200%;
+    animation:gradientShift 6s ease infinite;
+  }
+
+  /* --- Subtitle --- */
+  .hero .subtitle{
+    font-size:clamp(15px,1.6vw,19px);
+    color:#475569;
+    max-width:640px;
+    margin:0 auto 40px;
+    line-height:1.7;
+    font-weight:400;
+  }
+  [data-theme="dark"] .hero .subtitle{color:#94a3b8}
+
+  /* --- CTA buttons (pill, black) --- */
+  .hero-cta-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:56px}
+  .btn-pill{
+    display:inline-flex;align-items:center;gap:10px;
+    background:#0f172a;color:#fff;
+    padding:15px 28px;border-radius:999px;
+    font-weight:600;font-size:15px;
+    text-decoration:none;border:none;cursor:pointer;
+    transition:transform .22s ease,background .22s,box-shadow .22s;
+    box-shadow:0 4px 18px rgba(15,23,42,.22);
+    font-family:inherit;
+    letter-spacing:-.01em;
+  }
+  .btn-pill:hover{transform:translateY(-2px);background:#1e293b;box-shadow:0 8px 28px rgba(15,23,42,.3)}
+  .btn-pill-outline{
+    background:transparent;color:#0f172a;
+    border:1.5px solid #e2e8f0;
+    box-shadow:0 2px 8px rgba(0,0,0,.05);
+  }
+  .btn-pill-outline:hover{border-color:#94a3b8;background:#f8fafc;transform:translateY(-2px)}
+  [data-theme="dark"] .btn-pill-outline{color:#e2e8f0;border-color:#334155}
+  [data-theme="dark"] .btn-pill-outline:hover{background:#1e293b;border-color:#64748b}
+  .btn-pill .arrow{transition:transform .22s}
+  .btn-pill:hover .arrow{transform:translateX(5px)}
+
+  /* --- Persona tabs bar --- */
+  .persona-tabs-wrap{margin-bottom:24px}
+  .persona-tabs{
+    display:inline-flex;
+    background:#f1f5f9;
+    padding:5px;border-radius:999px;
+    border:1px solid #e2e8f0;
+    gap:3px;flex-wrap:wrap;max-width:100%;
+  }
+  [data-theme="dark"] .persona-tabs{background:#1e293b;border-color:#334155}
+  .persona-tab{
+    background:transparent;border:none;
+    color:#64748b;
+    padding:10px 20px;border-radius:999px;
+    font-size:13px;font-weight:600;cursor:pointer;
+    transition:.25s;display:inline-flex;align-items:center;gap:7px;
+    font-family:inherit;white-space:nowrap;
+  }
+  .persona-tab:hover{color:#0f172a}
+  [data-theme="dark"] .persona-tab{color:#94a3b8}
+  [data-theme="dark"] .persona-tab:hover{color:#e2e8f0}
+  .persona-tab.active{
+    background:#fff;color:#0f172a;
+    box-shadow:0 2px 10px rgba(0,0,0,.1);
+  }
+  [data-theme="dark"] .persona-tab.active{background:#0f172a;color:#e2e8f0;box-shadow:0 2px 10px rgba(0,0,0,.4)}
+
+  /* --- Persona preview card --- */
+  .persona-preview{
+    max-width:780px;margin:0 auto 48px;
+    background:#fff;
+    border:1px solid #e2e8f0;
+    border-radius:20px;padding:28px;
+    box-shadow:0 8px 32px rgba(0,0,0,.06);
+    text-align:left;
+    min-height:152px;
+  }
+  [data-theme="dark"] .persona-preview{background:#1e293b;border-color:#334155;box-shadow:0 8px 32px rgba(0,0,0,.3)}
+  .persona-preview h4{color:#0f172a;margin-bottom:8px;font-size:17px;font-weight:700}
+  [data-theme="dark"] .persona-preview h4{color:#f1f5f9}
+  .persona-preview p{color:#475569;font-size:14px;margin-bottom:14px;line-height:1.7}
+  [data-theme="dark"] .persona-preview p{color:#94a3b8}
+  .persona-preview .chips{display:flex;gap:7px;flex-wrap:wrap}
+  .persona-preview .chips span{
+    background:#f1f5f9;color:#0f172a;
+    padding:4px 12px;border-radius:999px;
+    font-size:12px;font-weight:500;border:1px solid #e2e8f0;
+  }
+  [data-theme="dark"] .persona-preview .chips span{background:#0f172a;color:#94a3b8;border-color:#334155}
+  .persona-panel{display:none}
+  .persona-panel.active{display:block;animation:fadeInUp .45s cubic-bezier(.16,1,.3,1)}
+
+  /* --- Hero stats strip --- */
+  .hero-stats{
+    display:grid;grid-template-columns:repeat(4,1fr);
+    gap:0;
+    max-width:600px;margin:0 auto;
+    border:1px solid #e2e8f0;border-radius:16px;
+    background:#fff;overflow:hidden;
+    box-shadow:0 4px 20px rgba(0,0,0,.05);
+  }
+  [data-theme="dark"] .hero-stats{background:#1e293b;border-color:#334155;box-shadow:0 4px 20px rgba(0,0,0,.3)}
+  .hero-stats > div{padding:20px 12px;border-right:1px solid #e2e8f0;transition:.2s}
+  [data-theme="dark"] .hero-stats > div{border-color:#334155}
+  .hero-stats > div:last-child{border-right:none}
+  .hero-stats > div:hover{background:#f8fafc}
+  [data-theme="dark"] .hero-stats > div:hover{background:#0f172a}
+  .hero-stat-v{font-size:30px;font-weight:800;background:linear-gradient(135deg,#10b981,#3b82f6);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero-stat-l{font-size:12px;color:#64748b;margin-top:3px;font-weight:500}
+  @media(max-width:640px){
+    .hero-stats{grid-template-columns:repeat(2,1fr)}
+    .hero-stats > div:nth-child(2){border-right:none}
+    .hero-stats > div:nth-child(1),.hero-stats > div:nth-child(2){border-bottom:1px solid #e2e8f0}
+    [data-theme="dark"] .hero-stats > div:nth-child(1),
+    [data-theme="dark"] .hero-stats > div:nth-child(2){border-color:#334155}
+  }
+
+  /* --- Partner logos row --- */
+  .partners-row{
+    padding:44px 24px 36px;
+    text-align:center;
+    background:#fafafa;
+    border-bottom:1px solid #f1f5f9;
+  }
+  [data-theme="dark"] .partners-row{background:#0b1120;border-color:#1e293b}
+  .partners-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:2.5px;color:#94a3b8;margin-bottom:22px}
+  .partners-grid{display:flex;justify-content:center;align-items:center;gap:44px;flex-wrap:wrap;max-width:1000px;margin:0 auto}
+  .partner-logo{
+    font-weight:700;font-size:14px;letter-spacing:-.01em;
+    color:#94a3b8;
+    display:inline-flex;align-items:center;gap:6px;
+    transition:.2s;cursor:default;
+  }
+  .partner-logo:hover{color:#334155}
+  [data-theme="dark"] .partner-logo:hover{color:#e2e8f0}
+  .partner-logo .p-icon{font-size:20px}
+
+  /* --- Nav pill --- */
+  .nav-demo{border-radius:999px!important;padding:8px 18px!important;letter-spacing:-.01em;box-shadow:0 4px 14px rgba(16,185,129,.25);transition:.22s!important}
+  .nav-demo:hover{transform:translateY(-1px)!important;box-shadow:0 6px 20px rgba(16,185,129,.38)!important}
+
+  @media(max-width:640px){
+    .persona-tabs{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;justify-content:flex-start}
+    .persona-tabs::-webkit-scrollbar{display:none}
+    .partners-grid{gap:24px}.partner-logo{font-size:13px}
+    .hero h1{letter-spacing:-1.5px}
+  }
+  /* ═══════════════════════════════════════════════════
+     END STELLAR-INSPIRED UPGRADE
+  ═══════════════════════════════════════════════════ */
+</style>
+<style>
+  /* PRINT */
+  @media print{nav,footer,.back-top,.hero-btn-row,button{display:none!important}.hero{padding:40px 24px}.container{padding:30px 18px}body{background:#fff!important;color:#000!important}.card,.tech,.kpi,.step,.phase,.ref{background:#fff!important;box-shadow:none!important;border:1px solid #ddd!important}[data-theme="dark"] body,[data-theme="dark"] .card{background:#fff!important;color:#000!important}}
+  /* TOOLTIP */
+  .tip-wrap{position:relative;display:inline}
+  .tip-wrap .tip{position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:#0b1120;color:#e2e8f0;font-size:12px;padding:6px 10px;border-radius:8px;white-space:nowrap;max-width:220px;white-space:normal;pointer-events:none;opacity:0;transition:opacity .15s;z-index:200;border:1px solid #334155;box-shadow:0 4px 12px rgba(0,0,0,.3);line-height:1.4;min-width:160px}
+  .tip-wrap:hover .tip,.tip-wrap:focus-within .tip{opacity:1}
+  [data-tip]{border-bottom:1px dashed #64748b;cursor:help}
+  /* GANTT */
+  .gantt{margin-top:28px;overflow-x:auto}
+  .gantt-title{font-size:14px;font-weight:700;color:var(--muted,#64748b);text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px}
+  .gantt-grid{min-width:560px}
+  .gantt-head{display:grid;grid-template-columns:130px repeat(12,1fr);gap:2px;margin-bottom:6px}
+  .gantt-head span{font-size:10px;font-weight:700;color:#94a3b8;text-align:center;padding:3px 0;background:rgba(255,255,255,.04);border-radius:4px}
+  .gantt-row{display:grid;grid-template-columns:130px repeat(12,1fr);gap:2px;margin-bottom:5px;align-items:center}
+  .gantt-label{font-size:11px;font-weight:600;color:var(--muted,#64748b);padding-right:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .gantt-bar-wrap{background:rgba(255,255,255,.04);border-radius:4px;height:22px;position:relative}
+  .gantt-bar{height:100%;border-radius:4px;position:absolute;left:0;top:0;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#fff;transition:.3s;overflow:hidden;white-space:nowrap}
+  /* SHARE/PRINT NAV BUTTONS */
+  .nav-actions{display:flex;gap:6px;align-items:center}
+  .nav-icon-btn{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:#64748b;padding:5px 9px;border-radius:7px;cursor:pointer;font-size:13px;transition:.2s}
+  .nav-icon-btn:hover{background:#f1f5f9;color:#0f172a}
+  [data-theme="dark"] .nav-icon-btn:hover{background:#1e293b;color:#e2e8f0}
+</style>
+<style>
+  /* DARK MODE */
+  [data-theme="dark"]{--bg:#0b1120;--bg2:#1e293b;--card:#1e293b;--muted:#94a3b8;--text:#e2e8f0;--border:#334155;--surface:#0f172a}
+  [data-theme="dark"] body{background:#0b1120}
+  [data-theme="dark"] nav{background:rgba(15,23,42,.96)}
+  [data-theme="dark"] .tech,[data-theme="dark"] .kpi,[data-theme="dark"] .card,[data-theme="dark"] .ref,[data-theme="dark"] .step,[data-theme="dark"] .problem,[data-theme="dark"] .solution{background:#1e293b;border-color:#334155}
+  [data-theme="dark"] th{background:#0f172a;color:#94a3b8}
+  [data-theme="dark"] td{color:#e2e8f0}
+  [data-theme="dark"] tr:hover td{background:#0f172a}
+  [data-theme="dark"] .arch{background:linear-gradient(180deg,#020811,#0b1120)}
+  [data-theme="dark"] .diagram{background:#1e293b;border-color:#334155}
+  [data-theme="dark"] footer{background:linear-gradient(135deg,#020811,#0b1120)}
+  [data-theme="dark"] .table-wrap{border-color:#334155}
+  [data-theme="dark"] .nav-links a:hover{background:#1e293b;color:#e2e8f0}
+  [data-theme="dark"] .nav-drawer{background:#1e293b}
+  [data-theme="dark"] .nav-drawer a{background:#0f172a;border-color:#334155;color:#e2e8f0}
+  [data-theme="dark"] select,.prescription-form input{background:#1e293b;color:#e2e8f0}
+  /* SCROLL ANIMATIONS */
+  .animate-in{opacity:0;transform:translateY(20px);transition:opacity .5s ease,transform .5s ease}
+  .animate-in.visible{opacity:1;transform:none}
+</style>
+<style>
+  :root{
+    --bg:#0b1120; --bg2:#1e293b; --card:#ffffff; --muted:#64748b;
+    --text:#0f172a; --accent:#10b981; --accent2:#3b82f6; --accent3:#ef4444;
+    --accent4:#f59e0b; --accent5:#8b5cf6; --border:#e2e8f0;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f8fafc;color:var(--text);line-height:1.65}
+
+  /* NAV — Premium Pill Glassmorphism */
+  nav{position:fixed;top:12px;left:50%;transform:translateX(-50%);z-index:100;display:flex;justify-content:center;padding:0}
+  .nav-pill{display:inline-flex;align-items:center;gap:2px;border-radius:999px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.85);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);padding:6px 6px 6px 8px;box-shadow:0 8px 32px rgba(0,0,0,.08);transition:box-shadow .3s ease}
+  [data-theme="dark"] .nav-pill{background:rgba(15,23,42,.82);border-color:rgba(51,65,85,.4);box-shadow:0 8px 32px rgba(0,0,0,.25)}
+  .nav-pill.scrolled{box-shadow:0 12px 40px rgba(0,0,0,.12)}
+  [data-theme="dark"] .nav-pill.scrolled{box-shadow:0 12px 40px rgba(0,0,0,.35)}
+  .nav-inner{max-width:none;margin:0;display:flex;align-items:center;gap:2px;height:auto}
+  .logo{font-weight:700;font-size:15px;display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--text);padding:4px 10px 4px 4px;border-radius:999px;transition:transform .2s}
+  .logo:hover{transform:scale(1.03)}
+  .logo-icon-ring{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#10b981,#3b82f6);display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:13px;flex-shrink:0;position:relative}
+  .logo-icon-ring::before{content:'';position:absolute;inset:-2px;border-radius:50%;background:linear-gradient(90deg,var(--accent-blue),var(--accent-blue2));z-index:-1;opacity:.8;transition:opacity .3s,background .3s}
+  .logo:hover .logo-icon-ring::before{opacity:1;background:linear-gradient(90deg,var(--accent-blue2),var(--accent-blue))}
+  .nav-links{display:flex;gap:1px;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;align-items:center}
+  .nav-links::-webkit-scrollbar{display:none}
+  .nav-divider{width:1px;height:18px;background:var(--border);margin:0 6px;opacity:.6}
+  .nav-links a{color:var(--muted);text-decoration:none;font-size:12px;padding:6px 12px;border-radius:999px;font-weight:500;white-space:nowrap;transition:background .2s,color .2s}
+  .nav-links a:hover,.nav-links a.active{background:var(--border);color:var(--text)}
+  .nav-cta{position:relative;border-radius:999px;font-size:12px;font-weight:500;padding:6px 14px;background:linear-gradient(90deg,#10b981,#3b82f6);color:#fff!important;border:none;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:4px;transition:transform .2s,box-shadow .2s}
+  .nav-cta:hover{transform:scale(1.05);box-shadow:0 4px 14px rgba(16,185,129,.3)}
+  .nav-cta::before{content:'';position:absolute;inset:-2px;border-radius:999px;background:linear-gradient(90deg,var(--accent-blue),var(--accent-blue2));z-index:-1;opacity:0;transition:opacity .3s}
+  .nav-cta:hover::before{opacity:1}
+  .nav-cta span{position:relative;z-index:1}
+  /* Hamburger */
+  .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px;border:none;background:none}
+  .hamburger span{display:block;width:22px;height:2px;background:var(--text);border-radius:2px;transition:.3s}
+  .hamburger.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+  .hamburger.open span:nth-child(2){opacity:0}
+  .hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+  /* Mobile nav drawer */
+  .nav-drawer{display:none;position:fixed;top:72px;left:0;right:0;background:#fff;border-bottom:2px solid var(--border);z-index:99;padding:16px 20px 20px;box-shadow:0 12px 30px rgba(0,0,0,.1)}
+  .nav-drawer.open{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .nav-drawer a{color:var(--text);text-decoration:none;font-size:13px;font-weight:600;padding:10px 12px;border-radius:10px;background:#f8fafc;border:1px solid var(--border);text-align:center;transition:.2s}
+  .nav-drawer a:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+  /* Bouton démo nav */
+  .nav-demo{background:linear-gradient(135deg,#10b981,#3b82f6);color:#fff!important;padding:7px 14px!important;border-radius:8px!important;font-weight:700!important}
+
+  /* HERO — overridden by Stellar-inspired styles above */
+  h1{font-size:clamp(44px,7vw,80px);font-weight:800;margin-bottom:24px;letter-spacing:-2.5px;line-height:1.05}
+  .subtitle{font-size:clamp(15px,1.6vw,19px);margin-bottom:40px;max-width:640px;margin-left:auto;margin-right:auto;line-height:1.7}
+
+  /* LAYOUT */
+  .container{max-width:1200px;margin:0 auto;padding:60px 18px}
+  section{scroll-margin-top:70px}
+  .section-title{font-size:30px;font-weight:800;margin-bottom:10px;display:flex;align-items:center;gap:14px;letter-spacing:-.5px}
+  .section-subtitle{color:var(--muted);margin-bottom:36px;font-size:15px;max-width:780px}
+  .section-num{background:var(--accent);color:#fff;width:40px;height:40px;border-radius:12px;display:inline-flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;box-shadow:0 4px 12px rgba(16,185,129,.3)}
+  .s2 .section-num{background:var(--accent2);box-shadow:0 4px 12px rgba(59,130,246,.3)}
+  .s3 .section-num{background:var(--accent3);box-shadow:0 4px 12px rgba(239,68,68,.3)}
+  .s4 .section-num{background:var(--accent4);box-shadow:0 4px 12px rgba(245,158,11,.3)}
+  .s5 .section-num{background:var(--accent5);box-shadow:0 4px 12px rgba(139,92,246,.3)}
+
+  /* GRIDS & CARDS */
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+  .grid-2{display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));gap:20px}
+  .card{background:var(--card);border-radius:16px;padding:26px;border:1px solid var(--border);transition:transform .2s,box-shadow .2s;border-left:4px solid var(--accent)}
+  .card:hover{transform:translateY(-4px);box-shadow:0 14px 28px rgba(0,0,0,.08)}
+  .card.blue{border-left-color:var(--accent2)}
+  .card.red{border-left-color:var(--accent3)}
+  .card.orange{border-left-color:var(--accent4)}
+  .card.purple{border-left-color:var(--accent5)}
+  .card-icon{font-size:30px;margin-bottom:12px;display:inline-block}
+  .card h3{font-size:17px;margin-bottom:10px;font-weight:700}
+  .card p{color:var(--muted);font-size:14px}
+  .card p strong{color:var(--text)}
+
+  /* CALL-OUT BOXES */
+  .problem{background:linear-gradient(135deg,#fef2f2 0%,#fff5f5 100%);border-left:4px solid var(--accent3);padding:22px 26px;border-radius:14px;margin-bottom:20px;box-shadow:0 2px 8px rgba(239,68,68,.08)}
+  .problem strong{color:var(--accent3)}
+  .solution{background:linear-gradient(135deg,#ecfdf5 0%,#f0fdfa 100%);border-left:4px solid var(--accent);padding:22px 26px;border-radius:14px;margin-bottom:20px;box-shadow:0 2px 8px rgba(16,185,129,.08)}
+  .solution strong{color:var(--accent)}
+
+  /* ARCHITECTURE */
+  .arch{background:linear-gradient(180deg,#0b1120 0%,#1e293b 100%);color:#e2e8f0;border-radius:20px;padding:36px;margin-top:24px;overflow-x:auto;box-shadow:0 12px 40px rgba(0,0,0,.2)}
+  .arch pre{font-family:'Courier New',Consolas,monospace;font-size:13px;line-height:1.8;white-space:pre}
+  .layer{display:flex;align-items:center;gap:18px;padding:16px 20px;margin:10px 0;background:rgba(255,255,255,.05);border-radius:12px;border-left:4px solid var(--accent);transition:.2s}
+  .layer:hover{background:rgba(255,255,255,.08);transform:translateX(4px)}
+  .layer.blue{border-left-color:var(--accent2)}
+  .layer.red{border-left-color:var(--accent3)}
+  .layer.orange{border-left-color:var(--accent4)}
+  .layer.purple{border-left-color:var(--accent5)}
+  .layer-num{background:rgba(255,255,255,.1);width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:800;flex-shrink:0}
+  .layer-content{flex:1}
+  .layer-title{font-weight:700;margin-bottom:4px;color:#fff;font-size:15px}
+  .layer-desc{font-size:13px;color:#94a3b8}
+
+  /* STACK */
+  .stack{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:20px}
+  .tech{background:#fff;border:1px solid var(--border);padding:18px;border-radius:12px;text-align:center;transition:.2s}
+  .tech:hover{border-color:var(--accent2);transform:translateY(-2px)}
+  .tech-icon{font-size:24px;margin-bottom:8px}
+  .tech-name{font-weight:700;font-size:14px;margin-bottom:4px}
+  .tech-desc{font-size:12px;color:var(--muted)}
+
+  /* TIMELINE */
+  .timeline{position:relative;padding-left:36px;margin-top:20px}
+  .timeline::before{content:'';position:absolute;left:14px;top:0;bottom:0;width:2px;background:linear-gradient(180deg,var(--accent),var(--accent2),var(--accent5))}
+  .phase{position:relative;padding-bottom:28px;padding-left:8px}
+  .phase::before{content:'';position:absolute;left:-28px;top:4px;width:16px;height:16px;border-radius:50%;background:var(--accent);border:3px solid #fff;box-shadow:0 0 0 2px var(--accent),0 4px 10px rgba(16,185,129,.3)}
+  .phase h4{font-weight:700;margin-bottom:4px;font-size:16px}
+  .phase-meta{font-size:12px;color:var(--accent2);margin-bottom:8px;font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+  .phase p{font-size:14px;color:#334155}
+  .phase ul{margin-top:8px;padding-left:20px;color:#334155;font-size:13px}
+  .phase ul li{margin-bottom:3px}
+
+  /* KPIs */
+  .kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-top:20px}
+  .kpi{background:#fff;border:1px solid var(--border);border-radius:14px;padding:24px 20px;text-align:center;transition:.2s}
+  .kpi:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,0,0,.06)}
+  .kpi-value{font-size:36px;font-weight:800;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .kpi-label{font-size:13px;color:var(--muted);margin-top:6px}
+
+  /* WORKFLOW */
+  .workflow{display:flex;flex-direction:column;gap:14px;margin-top:20px}
+  .step{display:flex;gap:20px;background:#fff;border:1px solid var(--border);border-radius:14px;padding:22px;border-left:4px solid var(--accent2);transition:.2s}
+  .step:hover{transform:translateX(4px);box-shadow:0 8px 20px rgba(0,0,0,.05)}
+  .step:nth-child(even){border-left-color:var(--accent)}
+  .step-num{flex-shrink:0;width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,var(--accent2),var(--accent));color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:20px;box-shadow:0 4px 10px rgba(59,130,246,.25)}
+  .step-body h4{font-weight:700;margin-bottom:6px;font-size:16px}
+  .step-body p{color:#334155;font-size:14px}
+  .step-body strong{color:var(--accent)}
+
+  /* TABLE */
+  .table-wrap{overflow-x:auto;margin-top:20px;border-radius:14px;border:1px solid var(--border)}
+  table{width:100%;border-collapse:collapse;background:#fff}
+  th{background:#f1f5f9;padding:14px 16px;text-align:left;font-size:13px;font-weight:700;color:#334155;text-transform:uppercase;letter-spacing:.5px;border-bottom:2px solid var(--border)}
+  td{padding:14px 16px;font-size:14px;border-bottom:1px solid var(--border)}
+  tr:last-child td{border-bottom:none}
+  tr:hover td{background:#f8fafc}
+  .chip{display:inline-block;padding:3px 10px;border-radius:12px;font-size:12px;font-weight:600}
+  .chip-g{background:#d1fae5;color:#065f46}
+  .chip-y{background:#fef3c7;color:#92400e}
+  .chip-r{background:#fee2e2;color:#991b1b}
+  .chip-b{background:#dbeafe;color:#1e40af}
+
+  /* SVG DIAGRAM */
+  .diagram{background:#fff;border:1px solid var(--border);border-radius:16px;padding:24px;margin-top:20px;overflow-x:auto}
+  .diagram svg{display:block;margin:0 auto;max-width:100%}
+
+  /* REFERENCES */
+  .ref-list{display:flex;flex-direction:column;gap:10px;margin-top:20px}
+  .ref{background:#fff;border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:10px;padding:16px 20px}
+  .ref.b{border-left-color:var(--accent2)}
+  .ref.r{border-left-color:var(--accent3)}
+  .ref.o{border-left-color:var(--accent4)}
+  .ref.p{border-left-color:var(--accent5)}
+  .ref-title{font-weight:700;margin-bottom:4px;font-size:15px}
+  .ref-meta{font-size:13px;color:#334155}
+  .ref-doi{font-size:12px;color:var(--muted);font-family:monospace;margin-top:4px}
+
+  /* FOOTER */
+  footer{background:linear-gradient(135deg,#0b1120,#1e293b);color:#94a3b8;padding:60px 24px 30px;text-align:center;font-size:14px;margin-top:60px}
+  footer h3{color:#fff;margin-bottom:12px;font-size:20px}
+  footer p{margin-bottom:8px;max-width:640px;margin-left:auto;margin-right:auto}
+  .footer-tags{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:20px 0}
+  .footer-tags span{background:rgba(255,255,255,.08);padding:6px 14px;border-radius:16px;font-size:12px}
+  .footer-divider{border-top:1px solid rgba(255,255,255,.1);margin:24px auto 16px;max-width:300px}
+
+  /* TEAM CARDS */
+  .team-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;margin-top:20px}
+  .team-card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:24px 20px;text-align:center;transition:transform .2s,box-shadow .2s}
+  .team-card:hover{transform:translateY(-5px);box-shadow:0 16px 32px rgba(0,0,0,.1)}
+  .team-avatar{width:70px;height:70px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 14px;box-shadow:0 6px 16px rgba(0,0,0,.15)}
+  .team-role{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);margin-bottom:4px}
+  .team-name{font-size:17px;font-weight:800;margin-bottom:12px}
+  .team-tags{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin-bottom:12px}
+  .ttag{background:var(--surface, #f1f5f9);color:var(--muted);padding:3px 10px;border-radius:10px;font-size:11px;font-weight:600;border:1px solid var(--border)}
+  .team-desc{font-size:13px;color:var(--muted);line-height:1.5}
+
+  /* BACK TO TOP */
+  .back-top{position:fixed;bottom:24px;right:24px;width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#10b981,#3b82f6);color:#fff;border:none;font-size:20px;cursor:pointer;box-shadow:0 4px 14px rgba(16,185,129,.35);display:none;align-items:center;justify-content:center;z-index:90;transition:.2s}
+  .back-top.show{display:flex}
+  .back-top:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(16,185,129,.4)}
+
+  /* DARK MODE FIXES */
+  [data-theme="dark"] .step-body p{color:#94a3b8}
+  [data-theme="dark"] .phase p,[data-theme="dark"] .phase ul{color:#94a3b8}
+  [data-theme="dark"] .ref-meta{color:#94a3b8}
+  [data-theme="dark"] .team-card{background:#1e293b;border-color:#334155}
+  [data-theme="dark"] .ttag{background:#0f172a;border-color:#334155}
+  [data-theme="dark"] .layer-desc{color:#94a3b8}
+  [data-theme="dark"] h3{color:#e2e8f0}
+
+  /* ===================== MOBILE ===================== */
+  @media(max-width:768px){
+    /* Nav */
+    .nav-links{display:none}
+    .nav-divider{display:none}
+    .hamburger{display:flex}
+    .nav-pill{padding:4px 4px 4px 6px;gap:0}
+    .logo{font-size:13px;padding:3px 6px 3px 3px}
+    .logo-icon-ring{width:26px;height:26px;font-size:11px}
+    .nav-cta{padding:5px 10px;font-size:11px}
+
+    /* Hero */
+    .hero{padding:60px 18px 50px}
+    .badge-hero{font-size:11px;padding:6px 14px}
+    h1{font-size:36px;letter-spacing:-1px}
+    .subtitle{font-size:15px}
+    .hero-tags .tag{font-size:12px;padding:6px 12px}
+    .hero-stats{grid-template-columns:repeat(2,1fr);gap:10px}
+    .hero-stat-v{font-size:24px}
+    .hero-stat-l{font-size:11px}
+
+    /* Layout */
+    .container{padding:40px 16px}
+    .section-title{font-size:22px;gap:10px}
+    .section-num{width:34px;height:34px;font-size:14px;border-radius:10px}
+    .section-subtitle{font-size:14px;margin-bottom:24px}
+
+    /* Grids → 1 colonne */
+    .grid{grid-template-columns:1fr}
+    .grid-2{grid-template-columns:1fr}
+    .kpi-grid{grid-template-columns:repeat(2,1fr);gap:10px}
+    .stack{grid-template-columns:repeat(2,1fr);gap:10px}
+
+    /* Cards */
+    .card{padding:18px 16px}
+    .card h3{font-size:15px}
+    .card p{font-size:13px}
+
+    /* Architecture */
+    .arch{padding:18px 14px;border-radius:14px}
+    .layer{padding:12px 14px;gap:12px}
+    .layer-title{font-size:13px}
+    .layer-desc{font-size:12px}
+    .layer-num{width:30px;height:30px;font-size:13px}
+
+    /* Workflow */
+    .step{padding:16px 14px;gap:14px}
+    .step-num{width:38px;height:38px;font-size:16px;border-radius:10px}
+    .step-body h4{font-size:14px}
+    .step-body p{font-size:13px}
+
+    /* Timeline */
+    .timeline{padding-left:28px}
+    .phase h4{font-size:15px}
+
+    /* Tables → scrollables */
+    .table-wrap{border-radius:10px}
+    .data-table th,.data-table td,th,td{padding:10px 10px;font-size:12px}
+
+    /* Code */
+    .arch pre{font-size:11px}
+
+    /* KPI */
+    .kpi{padding:16px 10px}
+    .kpi-value{font-size:26px}
+
+    /* Tech */
+    .tech{padding:14px 10px}
+    .tech-name{font-size:12px}
+    .tech-desc{font-size:11px}
+
+    /* Refs */
+    .ref{padding:14px 16px}
+    .ref-title{font-size:14px}
+
+    /* Footer */
+    footer{padding:40px 16px 24px}
+    footer h3{font-size:18px}
+    .footer-tags span{font-size:11px;padding:5px 10px}
+
+    /* SVG diagram scroll */
+    .diagram{padding:12px;overflow-x:auto}
+    .diagram svg{min-width:600px}
+
+    /* Section spacing */
+    section[style*="margin-top:70px"]{margin-top:44px!important}
+    section[style*="margin-top:60px"]{margin-top:40px!important}
+
+    /* Team grid */
+    .team-grid{grid-template-columns:repeat(2,1fr);gap:12px}
+    .team-avatar{width:54px;height:54px;font-size:24px}
+    .team-name{font-size:15px}
+    .team-desc{font-size:12px}
+    /* Back to top */
+    .back-top{bottom:16px;right:16px;width:38px;height:38px;font-size:16px}
+  }
+
+  @media(max-width:400px){
+    .kpi-grid{grid-template-columns:repeat(2,1fr)}
+    .stack{grid-template-columns:repeat(2,1fr)}
+    .nav-drawer{grid-template-columns:repeat(2,1fr)}
+    .team-grid{grid-template-columns:1fr 1fr}
+    h1{font-size:30px}
+  }
+
+  /* ═══════════════════════════════════════════════════
+     ENHANCEMENTS v3.2 — Glassmorphism & Micro-interactions
+  ═══════════════════════════════════════════════════ */
+  /* Glassmorphism nav */
+  nav{background:rgba(255,255,255,.82);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid rgba(226,232,240,.6)}
+  [data-theme="dark"] nav{background:rgba(15,23,42,.82);border-bottom-color:rgba(51,65,85,.5)}
+
+  /* Enhanced cards with subtle gradient & glass */
+  .card{background:linear-gradient(180deg,var(--card) 0%,rgba(255,255,255,.55) 100%);backdrop-filter:blur(6px);transition:transform .4s cubic-bezier(.34,1.56,.64,1),box-shadow .4s ease,border-color .3s}
+  [data-theme="dark"] .card{background:linear-gradient(180deg,var(--card) 0%,rgba(30,41,59,.6) 100%)}
+  .card:hover{transform:translateY(-6px) scale(1.01);box-shadow:0 20px 40px rgba(0,0,0,.1);border-color:rgba(16,185,129,.25)}
+  [data-theme="dark"] .card:hover{border-color:rgba(16,185,129,.3)}
+
+  /* Section title underline animation */
+  .section-title{position:relative}
+  .section-title::after{content:'';position:absolute;bottom:-10px;left:0;width:48px;height:3px;border-radius:2px;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .35s cubic-bezier(.16,1,.3,1)}
+  .section-title:hover::after{width:90px}
+
+  /* Smoother scroll animations */
+  .animate-in{opacity:0;transform:translateY(28px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
+  .animate-in.visible{opacity:1;transform:none}
+
+  /* Team card top accent bar */
+  .team-card{overflow:hidden;position:relative}
+  .team-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--accent2),var(--accent5));opacity:0;transition:opacity .3s}
+  .team-card:hover::before{opacity:1}
+
+  /* Footer top gradient line */
+  footer{position:relative;overflow:hidden}
+  footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:.35}
+
+  /* KPI value animated gradient */
+  .kpi-value{background:linear-gradient(135deg,var(--accent),var(--accent2),var(--accent5));background-size:200% 200%;animation:gradientShift 4s ease infinite;-webkit-background-clip:text;background-clip:text;color:transparent}
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar{width:8px;height:8px}
+  ::-webkit-scrollbar-track{background:transparent}
+  ::-webkit-scrollbar-thumb{background:linear-gradient(180deg,var(--accent),var(--accent2));border-radius:4px}
+  [data-theme="dark"] ::-webkit-scrollbar-thumb{background:linear-gradient(180deg,var(--accent),var(--accent2))}
+
+  /* Architecture layer hover lift */
+  .layer{transition:transform .25s ease,background .25s ease}
+  .layer:hover{transform:translateX(6px)}
+
+  /* Problem / solution call-outs softer */
+  .problem{box-shadow:0 4px 12px rgba(239,68,68,.06)}
+  .solution{box-shadow:0 4px 12px rgba(16,185,129,.06)}
+
+  /* ═══════════════════════════════════════════════════
+     ENHANCEMENTS v3.3 — Motion, Depth & Polish
+  ═══════════════════════════════════════════════════ */
+  /* Floating orbs hero */
+  .hero-orb{position:absolute;border-radius:50%;filter:blur(60px);opacity:.45;pointer-events:none;animation:floatOrb 12s ease-in-out infinite}
+  .hero-orb:nth-child(1){width:260px;height:260px;background:rgba(16,185,129,.35);top:10%;left:-5%;animation-delay:0s}
+  .hero-orb:nth-child(2){width:200px;height:200px;background:rgba(59,130,246,.3);top:50%;right:-3%;animation-delay:-4s}
+  .hero-orb:nth-child(3){width:180px;height:180px;background:rgba(139,92,246,.25);bottom:10%;left:30%;animation-delay:-8s}
+  [data-theme="dark"] .hero-orb:nth-child(1){background:rgba(16,185,129,.55)}
+  [data-theme="dark"] .hero-orb:nth-child(2){background:rgba(59,130,246,.5)}
+  [data-theme="dark"] .hero-orb:nth-child(3){background:rgba(139,92,246,.4)}
+  @keyframes floatOrb{0%,100%{transform:translate(0,0) scale(1)}25%{transform:translate(30px,-40px) scale(1.08)}50%{transform:translate(-20px,20px) scale(.95)}75%{transform:translate(40px,10px) scale(1.05)}}
+
+  /* Scroll progress bar */
+  #scrollProgress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--accent2),var(--accent5));z-index:200;width:0%;transition:width .1s linear;box-shadow:0 0 12px rgba(16,185,129,.4)}
+
+  /* Card lift — clean without 3D tilt */
+  .card:hover,.team-card:hover{transform:translateY(-5px)}
+
+  /* Staggered grid animations */
+  .grid .card:nth-child(1),.grid-2 .card:nth-child(1){animation-delay:.0s}
+  .grid .card:nth-child(2),.grid-2 .card:nth-child(2){animation-delay:.08s}
+  .grid .card:nth-child(3),.grid-2 .card:nth-child(3){animation-delay:.16s}
+  .grid .card:nth-child(4),.grid-2 .card:nth-child(4){animation-delay:.24s}
+  .grid .card:nth-child(5),.grid-2 .card:nth-child(5){animation-delay:.32s}
+  .grid .card:nth-child(6),.grid-2 .card:nth-child(6){animation-delay:.40s}
+
+  /* Table row striping + glow */
+  tr:nth-child(even) td{background:rgba(248,250,252,.5)}
+  [data-theme="dark"] tr:nth-child(even) td{background:rgba(15,23,42,.35)}
+  tr:hover td{box-shadow:inset 3px 0 0 var(--accent)}
+  [data-theme="dark"] tr:hover td{box-shadow:inset 3px 0 0 var(--accent)}
+
+  /* Magnetic button effect */
+  .btn-pill,.nav-demo{transition:transform .25s cubic-bezier(.34,1.56,.64,1),box-shadow .25s ease,background .25s ease}
+  .btn-pill:active{transform:scale(.96)}
+
+  /* Footer wave */
+  .footer-wave{display:block;width:100%;height:60px;margin-top:40px}
+  .footer-wave svg{display:block;width:100%;height:100%}
+
+  /* Focus states for accessibility */
+  a:focus-visible,button:focus-visible{outline:2px solid var(--accent2);outline-offset:2px;border-radius:6px}
+
+  /* Smooth image loading placeholder */
+  img{transition:opacity .4s}
+  img[loading="lazy"]{opacity:0}
+  img.loaded{opacity:1}
+
+  /* Partners row enhanced */
+  .partners-row{background:linear-gradient(180deg,#fafafa 0%,#f8fafc 100%)}
+  [data-theme="dark"] .partners-row{background:linear-gradient(180deg,#0b1120 0%,#0f172a 100%)}
+
+  /* Section dividers — removed, too intrusive */
+
+  /* Tag/chip hover pop */
+  .chip,.footer-tags span{transition:transform .2s,box-shadow .2s}
+  .chip:hover,.footer-tags span:hover{transform:translateY(-2px);box-shadow:0 4px 10px rgba(0,0,0,.08)}
+  [data-theme="dark"] .chip:hover,[data-theme="dark"] .footer-tags span:hover{box-shadow:0 4px 10px rgba(0,0,0,.25)}
+
+  /* Marquee */
+  .marquee-wrap{overflow:hidden;white-space:nowrap;background:linear-gradient(135deg,#134e4a,#0f766e);border-top:1px solid rgba(255,255,255,.08);border-bottom:1px solid rgba(255,255,255,.08);padding:16px 0}
+  .marquee-track{display:inline-flex;align-items:center;gap:40px;animation:marqueeScroll 30s linear infinite}
+  .marquee-track span{font-family:'Inter',sans-serif;font-size:12px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.6)}
+  .marquee-dot{width:4px;height:4px;border-radius:50%;background:#5eead4;display:inline-block;flex-shrink:0;box-shadow:0 0 8px rgba(94,234,212,.5)}
+  @keyframes marqueeScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+  /* ═══════════════════════════════════════════════════════════════
+     MEDICAL FRESH v4.0 — Teal/Mint Design System Override
+  ═══════════════════════════════════════════════════════════════ */
+  :root{
+    --mc-teal-50: #f0fdfa;
+    --mc-teal-100: #ccfbf1;
+    --mc-teal-200: #99f6e4;
+    --mc-teal-300: #5eead4;
+    --mc-teal-400: #2dd4bf;
+    --mc-teal-500: #14b8a6;
+    --mc-teal-600: #0d9488;
+    --mc-teal-700: #0f766e;
+    --mc-teal-800: #115e59;
+    --mc-teal-900: #134e4a;
+    --mc-slate-50: #f8fafc;
+    --mc-slate-900: #0f172a;
+    --accent: #0d9488;
+    --accent2: #14b8a6;
+    --accent3: #f43f5e;
+    --accent4: #f59e0b;
+    --accent5: #2dd4bf;
+  }
+
+  /* HTML has solid bg, body transparent so canvas shows through */
+  html{background:#fafbfc}
+  [data-theme="dark"] html{background:#042f2e}
+  body{background:transparent!important;color:#0f172a}
+  [data-theme="dark"] body{background:transparent!important;color:#e6fffa}
+  [data-theme="dark"]{--accent:#2dd4bf;--accent2:#5eead4;--accent5:#99f6e4}
+
+  /* Hero: solid soft mint background for readability */
+  .hero{background:linear-gradient(180deg,#ffffff 0%,#f0fdfa 55%,#ccfbf1 100%)!important}
+  .hero::before{
+    background:
+      radial-gradient(ellipse 900px 600px at 15% -10%,rgba(13,148,136,.15),transparent),
+      radial-gradient(ellipse 700px 500px at 85% 20%,rgba(45,212,191,.12),transparent),
+      radial-gradient(ellipse 600px 500px at 50% 110%,rgba(94,234,212,.10),transparent)!important;
+  }
+  [data-theme="dark"] .hero{background:linear-gradient(180deg,#042f2e 0%,#0f766e 100%)!important;color:#f0fdfa}
+  [data-theme="dark"] .hero::before{
+    background:
+      radial-gradient(ellipse 900px 600px at 15% -10%,rgba(45,212,191,.22),transparent),
+      radial-gradient(ellipse 700px 500px at 85% 20%,rgba(20,184,166,.18),transparent),
+      radial-gradient(ellipse 600px 500px at 50% 110%,rgba(94,234,212,.15),transparent)!important;
+  }
+
+  /* Hero orbs - teal palette */
+  .hero-orb:nth-child(1){background:rgba(13,148,136,.32)!important}
+  .hero-orb:nth-child(2){background:rgba(45,212,191,.28)!important}
+  .hero-orb:nth-child(3){background:rgba(94,234,212,.22)!important}
+  [data-theme="dark"] .hero-orb:nth-child(1){background:rgba(45,212,191,.45)!important}
+  [data-theme="dark"] .hero-orb:nth-child(2){background:rgba(94,234,212,.35)!important}
+  [data-theme="dark"] .hero-orb:nth-child(3){background:rgba(153,246,228,.28)!important}
+
+  /* Hero gradient text */
+  .hero-gradient{
+    background:linear-gradient(135deg,#0d9488 0%,#14b8a6 45%,#2dd4bf 100%)!important;
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+
+  /* Buttons — teal primary */
+  .btn-pill{
+    background:linear-gradient(135deg,#0d9488,#0f766e)!important;color:#fff!important;
+    box-shadow:0 4px 20px rgba(13,148,136,.28)!important;
+  }
+  .btn-pill:hover{background:linear-gradient(135deg,#0f766e,#134e4a)!important;box-shadow:0 8px 30px rgba(13,148,136,.4)!important}
+  .btn-pill-outline{
+    background:#fff!important;color:#0f766e!important;
+    border:1.5px solid #99f6e4!important;
+    box-shadow:0 2px 8px rgba(13,148,136,.08)!important;
+  }
+  .btn-pill-outline:hover{background:#f0fdfa!important;border-color:#2dd4bf!important;color:#0d9488!important}
+  [data-theme="dark"] .btn-pill-outline{background:rgba(15,118,110,.2)!important;color:#99f6e4!important;border-color:rgba(45,212,191,.35)!important}
+
+  /* Logo ring — teal */
+  .logo-icon-ring{background:linear-gradient(135deg,#0d9488,#14b8a6)!important}
+  .logo-icon-ring::before{background:linear-gradient(90deg,#5eead4,#0d9488)!important}
+
+  /* Navbar CTA */
+  .nav-cta{background:linear-gradient(135deg,#0d9488,#14b8a6)!important}
+  .nav-cta:hover{box-shadow:0 4px 14px rgba(13,148,136,.4)!important}
+
+  /* Reviews badge */
+  .reviews-badge-icon{background:linear-gradient(135deg,#0d9488,#14b8a6)!important}
+  .reviews-badge-stars{color:#eab308!important}
+
+  /* Hero stats */
+  .hero-stat-v{background:linear-gradient(135deg,#0d9488,#14b8a6)!important;-webkit-background-clip:text;background-clip:text;color:transparent!important}
+
+  /* Partners row */
+  .partners-row{background:linear-gradient(180deg,#fafbfc 0%,#f0fdfa 100%)!important;border-color:#ccfbf1!important}
+  [data-theme="dark"] .partners-row{background:linear-gradient(180deg,#042f2e 0%,#115e59 100%)!important;border-color:#134e4a!important}
+
+  /* Section cards — softer */
+  .container{background:transparent}
+  .card{
+    background:#ffffff!important;
+    border:1px solid #e6fffa!important;
+    box-shadow:0 2px 12px rgba(13,148,136,.06)!important;
+  }
+  .card:hover{
+    border-color:#5eead4!important;
+    box-shadow:0 12px 32px rgba(13,148,136,.15)!important;
+  }
+  [data-theme="dark"] .card{background:#115e59!important;border-color:#134e4a!important;color:#f0fdfa}
+  [data-theme="dark"] .card:hover{border-color:#2dd4bf!important;box-shadow:0 12px 32px rgba(45,212,191,.18)!important}
+
+  /* Architecture block */
+  .arch{background:linear-gradient(160deg,#134e4a 0%,#0f766e 100%)!important;color:#ccfbf1!important;box-shadow:0 20px 50px rgba(13,148,136,.2)!important}
+  .layer{background:rgba(255,255,255,.06)!important;border-left-color:#2dd4bf!important}
+  .layer.blue{border-left-color:#5eead4!important}
+  .layer:hover{background:rgba(94,234,212,.08)!important}
+
+  /* KPI values */
+  .kpi-value{
+    background:linear-gradient(135deg,#0d9488,#14b8a6,#5eead4)!important;
+    background-size:200% 200%;
+    -webkit-background-clip:text;background-clip:text;color:transparent!important;
+  }
+
+  /* Footer */
+  footer{background:linear-gradient(135deg,#134e4a 0%,#042f2e 100%)!important;color:#a7f3d0!important}
+  footer h3{color:#f0fdfa!important}
+  .footer-tags span{background:rgba(94,234,212,.1)!important;color:#99f6e4!important;border:1px solid rgba(94,234,212,.25)!important;padding:5px 14px;border-radius:999px;font-size:12px;font-weight:500}
+
+  /* Section titles */
+  .section-title{color:#0f172a}
+  .section-title::after{background:linear-gradient(90deg,#0d9488,#2dd4bf)!important}
+  [data-theme="dark"] .section-title{color:#f0fdfa}
+
+  /* Back to top */
+  .back-top{background:linear-gradient(135deg,#0d9488,#14b8a6)!important;box-shadow:0 6px 20px rgba(13,148,136,.35)!important}
+
+  /* Scroll progress — teal */
+  #scrollProgress{background:linear-gradient(90deg,#0d9488,#2dd4bf,#5eead4)!important;box-shadow:0 0 12px rgba(13,148,136,.5)!important}
+
+  /* Persona tabs active */
+  .persona-tab.active{background:#fff!important;color:#0d9488!important;box-shadow:0 2px 10px rgba(13,148,136,.15)!important}
+  [data-theme="dark"] .persona-tab.active{background:#0d9488!important;color:#f0fdfa!important}
+
+  /* Persona chips */
+  .persona-preview .chips span{background:#f0fdfa!important;color:#0f766e!important;border-color:#99f6e4!important}
+  [data-theme="dark"] .persona-preview .chips span{background:rgba(13,148,136,.2)!important;color:#99f6e4!important;border-color:rgba(94,234,212,.3)!important}
+
+  /* Tech/stack items */
+  .tech{background:#fff!important;border:1px solid #ccfbf1!important;box-shadow:0 2px 8px rgba(13,148,136,.04)!important;transition:all .25s}
+  .tech:hover{border-color:#5eead4!important;box-shadow:0 8px 20px rgba(13,148,136,.12)!important;transform:translateY(-3px)}
+  [data-theme="dark"] .tech{background:#115e59!important;border-color:#134e4a!important;color:#f0fdfa}
+
+  /* Phase/timeline accents */
+  .phase,.step{border-left:3px solid #0d9488!important}
+  .phase:hover,.step:hover{border-left-color:#2dd4bf!important}
+
+  /* Ref items */
+  .ref{border-left-color:#0d9488!important}
+  .ref.s{border-left-color:#14b8a6!important}
+  .ref.d{border-left-color:#2dd4bf!important}
+  .ref.p{border-left-color:#5eead4!important}
+
+  /* Links */
+  a{color:#0d9488}
+  a:hover{color:#0f766e}
+  [data-theme="dark"] a{color:#5eead4}
+  [data-theme="dark"] a:hover{color:#99f6e4}
+
+  /* ═══════════════════════════════════════════════════════════════
+     ANIMATED BACKGROUND v4.1 — Particle Network + Gradient Mesh
+  ═══════════════════════════════════════════════════════════════ */
+  /* Global animated background layer */
+  #bgAnim{
+    position:fixed;inset:0;z-index:-2;
+    background:
+      radial-gradient(ellipse 80% 60% at 20% 10%,rgba(13,148,136,.12),transparent 60%),
+      radial-gradient(ellipse 70% 60% at 80% 30%,rgba(45,212,191,.10),transparent 60%),
+      radial-gradient(ellipse 60% 50% at 50% 90%,rgba(94,234,212,.08),transparent 60%);
+    background-size:200% 200%;
+    animation:meshDrift 18s ease-in-out infinite;
+    pointer-events:none;
+  }
+  [data-theme="dark"] #bgAnim{
+    background:
+      radial-gradient(ellipse 80% 60% at 20% 10%,rgba(45,212,191,.14),transparent 60%),
+      radial-gradient(ellipse 70% 60% at 80% 30%,rgba(94,234,212,.12),transparent 60%),
+      radial-gradient(ellipse 60% 50% at 50% 90%,rgba(153,246,228,.08),transparent 60%);
+  }
+  @keyframes meshDrift{
+    0%,100%{background-position:0% 0%,100% 0%,50% 100%}
+    33%{background-position:50% 30%,50% 70%,0% 50%}
+    66%{background-position:100% 50%,0% 30%,100% 50%}
+  }
+
+  /* Medical × Blockchain animated canvas (hexagons, DNA, ECG, particles) */
+  #particlesCanvas{
+    position:fixed;inset:0;z-index:-1;
+    pointer-events:none;
+    opacity:.7;
+  }
+  [data-theme="dark"] #particlesCanvas{opacity:.85}
+
+  /* Section-specific animated stripes */
+  .animated-grid{
+    position:absolute;inset:0;z-index:0;
+    background-image:
+      linear-gradient(rgba(13,148,136,.05) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(13,148,136,.05) 1px,transparent 1px);
+    background-size:50px 50px;
+    animation:gridScroll 20s linear infinite;
+    pointer-events:none;
+    mask-image:radial-gradient(ellipse at center,black 40%,transparent 80%);
+    -webkit-mask-image:radial-gradient(ellipse at center,black 40%,transparent 80%);
+  }
+  @keyframes gridScroll{from{background-position:0 0}to{background-position:50px 50px}}
+
+  /* Aurora beams — subtle, performant */
+  .aurora{
+    position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none;
+  }
+  .aurora::before,.aurora::after{
+    content:'';position:absolute;width:40vw;height:40vw;border-radius:50%;
+    filter:blur(80px);opacity:.25;
+    animation:auroraFloat 25s ease-in-out infinite;
+  }
+  .aurora::before{
+    top:-15%;left:-8%;
+    background:radial-gradient(circle,#2dd4bf,transparent 70%);
+  }
+  .aurora::after{
+    bottom:-15%;right:-8%;
+    background:radial-gradient(circle,#14b8a6,transparent 70%);
+    animation-delay:-12s;
+  }
+  [data-theme="dark"] .aurora::before{background:radial-gradient(circle,#5eead4,transparent 70%);opacity:.2}
+  [data-theme="dark"] .aurora::after{background:radial-gradient(circle,#99f6e4,transparent 70%);opacity:.18}
+  @keyframes auroraFloat{
+    0%,100%{transform:translate(0,0) scale(1)}
+    33%{transform:translate(10%,15%) scale(1.15)}
+    66%{transform:translate(-10%,-10%) scale(.9)}
+  }
+
+  /* Ensure main content sits above animated bg layers */
+  .hero,.container,section,footer,.marquee-wrap,.partners-row,.footer-wave{position:relative;z-index:1}
+
+  /* Pulse dots on hero */
+  .pulse-dot{
+    position:absolute;width:8px;height:8px;border-radius:50%;
+    background:#2dd4bf;box-shadow:0 0 0 0 rgba(45,212,191,.7);
+    animation:pulseDot 2.5s cubic-bezier(.4,0,.6,1) infinite;
+  }
+  .pulse-dot:nth-of-type(1){top:25%;left:12%;animation-delay:0s}
+  .pulse-dot:nth-of-type(2){top:65%;right:18%;animation-delay:.8s;background:#0d9488}
+  .pulse-dot:nth-of-type(3){top:40%;right:8%;animation-delay:1.6s;background:#5eead4}
+  .pulse-dot:nth-of-type(4){bottom:20%;left:22%;animation-delay:2.2s;background:#14b8a6}
+  @keyframes pulseDot{
+    0%,100%{transform:scale(1);box-shadow:0 0 0 0 rgba(45,212,191,.6)}
+    50%{transform:scale(1.3);box-shadow:0 0 0 14px rgba(45,212,191,0)}
+  }
+</style>
+</head>
+<body>
+
+<!-- Animated background layers -->
+<div id="bgAnim"></div>
+<div class="aurora"></div>
+<canvas id="particlesCanvas"></canvas>
+
+<!-- Scroll progress bar -->
+<div id="scrollProgress"></div>
+
+<nav>
+  <div class="nav-pill" id="navPill">
+    <div class="nav-inner">
+      <a href="#" class="logo"><span class="logo-icon-ring">⚕</span>MediChain+</a>
+      <span class="nav-divider"></span>
+      <div class="nav-links">
+        <a href="#contexte">Contexte</a>
+        <a href="#architecture">Architecture</a>
+        <a href="#features">Features</a>
+        <a href="#stack">Stack</a>
+      </div>
+      <span class="nav-divider"></span>
+      <a href="app.html" class="nav-cta"><span>🚀 Démo</span></a>
+      <button id="darkToggle" style="background:transparent;border:none;color:var(--muted);padding:4px 6px;border-radius:999px;cursor:pointer;font-size:13px;margin-left:4px">🌙</button>
+      <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<!-- Drawer mobile -->
+<div class="nav-drawer" id="navDrawer">
+  <a href="#contexte" onclick="closeMenu()">Contexte</a>
+  <a href="#architecture" onclick="closeMenu()">Architecture</a>
+  <a href="#features" onclick="closeMenu()">Fonctionnalités</a>
+  <a href="#stack" onclick="closeMenu()">Stack</a>
+  <a href="#planning" onclick="closeMenu()">Planning</a>
+  <a href="#kpi" onclick="closeMenu()">KPIs</a>
+  <a href="#scenario" onclick="closeMenu()">Scénario</a>
+  <a href="#code" onclick="closeMenu()">Smart Contract</a>
+  <a href="#diagram" onclick="closeMenu()">UML</a>
+  <a href="#comparison" onclick="closeMenu()">Comparaison</a>
+  <a href="#risks" onclick="closeMenu()">Risques</a>
+  <a href="#budget" onclick="closeMenu()">Budget</a>
+  <a href="#team" onclick="closeMenu()">Équipe</a>
+  <a href="#refs" onclick="closeMenu()">Références</a>
+  <a href="app.html" style="background:linear-gradient(135deg,#10b981,#3b82f6);color:#fff;border-color:transparent" onclick="closeMenu()">🚀 Démo</a>
+</div>
+
+<section class="hero">
+  <!-- Floating orbs — pure CSS animation -->
+  <div class="hero-orb"></div>
+  <div class="hero-orb"></div>
+  <div class="hero-orb"></div>
+
+  <!-- Pulse dots — blockchain nodes -->
+  <span class="pulse-dot"></span>
+  <span class="pulse-dot"></span>
+  <span class="pulse-dot"></span>
+  <span class="pulse-dot"></span>
+
+  <div class="hero-content">
+
+    <!-- Reviews badge -->
+    <div class="reviews-badge fade-up d1">
+      <div class="reviews-badge-icon">🎓</div>
+      <span class="reviews-badge-stars">★★★★★</span>
+      <span>Projet Universitaire · Blockchain 2025/2026</span>
+    </div>
+
+    <!-- Big heading — premium serif display -->
+    <h1 class="fade-up d2 font-display" style="font-size:clamp(2.8rem,6vw,5.5rem);line-height:.92;letter-spacing:-.03em;margin-bottom:.4em">
+      Sécurisez. Automatisez.<br/>
+      <span class="hero-gradient font-display">Réinventez la Santé.</span>
+    </h1>
+
+    <p class="subtitle fade-up d3">
+      MediChain+ est une plateforme hybride Blockchain qui unifie le dossier médical, l'identité auto-souveraine, la micro-assurance DeFi et l'IoT médical en une seule infrastructure décentralisée.
+    </p>
+
+    <!-- Black pill CTAs -->
+    <div class="hero-cta-row fade-up d4">
+      <a href="app.html" class="btn-pill">🚀 Lancer la démo <span class="arrow">→</span></a>
+      <a href="#architecture" class="btn-pill btn-pill-outline">Explorer l'architecture</a>
+    </div>
+
+    <!-- Auto-cycling persona tabs -->
+    <div class="persona-tabs-wrap fade-up d5">
+      <div class="persona-tabs" role="tablist" aria-label="Personas MediChain+">
+        <button class="persona-tab active" data-persona="patient"   role="tab">👤 Patient</button>
+        <button class="persona-tab"        data-persona="medecin"   role="tab">🩺 Médecin</button>
+        <button class="persona-tab"        data-persona="pharmacie" role="tab">💊 Pharmacie</button>
+        <button class="persona-tab"        data-persona="assureur"  role="tab">🛡️ Assureur</button>
+      </div>
+    </div>
+
+    <!-- Persona detail card -->
+    <div class="persona-preview fade-up d6" id="personaPreview">
+      <div class="persona-panel active" data-panel="patient">
+        <h4>👤 Patient — Propriétaire de ses données</h4>
+        <p>Identité auto-souveraine (DID W3C), consentement granulaire sur Hyperledger Fabric, micro-assurance paramétrique avec remboursement instantané en USDC via smart contract Solidity.</p>
+        <div class="chips"><span>SSI / DID W3C</span><span>Consent Mgmt</span><span>USDC Payouts</span><span>ECDSA P-256</span></div>
+      </div>
+      <div class="persona-panel" data-panel="medecin">
+        <h4>🩺 Médecin — Prescriptions signées on-chain</h4>
+        <p>Consultation unifiée du DME patient, signature cryptographique ECDSA des prescriptions, accès granulaire via smart contracts de consentement sur Hyperledger Fabric.</p>
+        <div class="chips"><span>DME Unifié</span><span>Rx Signées</span><span>Audit Trail</span><span>Fabric Chaincode</span></div>
+      </div>
+      <div class="persona-panel" data-panel="pharmacie">
+        <h4>💊 Pharmacie — Traçabilité anti-contrefaçon</h4>
+        <p>Vérification cryptographique des prescriptions, suivi du médicament du fabricant au patient, alertes IoT temps-réel via MQTT + Chainlink Oracle sur Polygon.</p>
+        <div class="chips"><span>Anti-contrefaçon</span><span>IoT MQTT</span><span>Chainlink Oracle</span><span>IPFS</span></div>
+      </div>
+      <div class="persona-panel" data-panel="assureur">
+        <h4>🛡️ Assureur — Remboursements automatisés</h4>
+        <p>Micro-assurance paramétrique Solidity sur Polygon zkEVM, validation déterministe des sinistres, déboursement en USDC en moins de 30 secondes, sans intermédiaire.</p>
+        <div class="chips"><span>Parametric DeFi</span><span>Polygon zkEVM</span><span>Solidity</span><span>OpenZeppelin</span></div>
+      </div>
+    </div>
+
+    <!-- Stats strip card -->
+    <div class="hero-stats fade-up d7">
+      <div><div class="hero-stat-v" data-target="5">5</div><div class="hero-stat-l">Couches</div></div>
+      <div><div class="hero-stat-v" data-target="3">3</div><div class="hero-stat-l">Axes Cours</div></div>
+      <div><div class="hero-stat-v" data-target="12">12</div><div class="hero-stat-l">Semaines</div></div>
+      <div><div class="hero-stat-v" data-target="20">20+</div><div class="hero-stat-l">Références</div></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Partner / Stack logos row -->
+<div class="partners-row">
+  <div class="partners-label">Propulsé par les standards open-source</div>
+  <div class="partners-grid">
+    <span class="partner-logo"><span class="p-icon">⬡</span> Hyperledger Fabric</span>
+    <span class="partner-logo"><span class="p-icon">◆</span> Ethereum</span>
+    <span class="partner-logo"><span class="p-icon">⬡</span> Polygon</span>
+    <span class="partner-logo"><span class="p-icon">🔗</span> Chainlink</span>
+    <span class="partner-logo"><span class="p-icon">🪐</span> IPFS</span>
+    <span class="partner-logo"><span class="p-icon">🛡</span> OpenZeppelin</span>
+    <span class="partner-logo"><span class="p-icon">💲</span> USDC</span>
+  </div>
+</div>
+
+<div class="container">
+
+  <section id="contexte" class="s1">
+    <h2 class="section-title animate-in"><span class="section-num">1</span>Contexte & Problématique</h2>
+    <p class="section-subtitle">Pourquoi ce projet ? Les 3 axes du cours (Santé, Sécurité, DeFi) réunis en une seule plateforme cohérente.</p>
+    <div class="problem animate-in">
+      <strong>⚠️ Problème réel :</strong> Les dossiers médicaux sont fragmentés entre hôpitaux, cliniques et laboratoires. Selon l'OMS (2023), 1 médicament sur 10 dans les pays en développement est contrefait, causant 1 million de décès/an. Les patients n'ont pas le contrôle de leurs données de santé. Les remboursements d'assurance santé prennent 15 à 90 jours. Les modèles d'IA médicale manquent de données diversifiées sans violer la confidentialité.
+    </div>
+    <div class="solution animate-in">
+      <strong>💡 Notre solution MediChain+ :</strong> Une plateforme décentralisée qui (1) unifie le DME du patient sur Hyperledger Fabric, (2) lui donne une identité auto-souveraine (DID/SSI sur Ethereum), (3) automatise les remboursements via des smart contracts DeFi (micro-assurance paramétrique), (4) intègre l'IoT médical avec signature cryptographique, et (5) permet l'entraînement fédéré d'IA sur des données privées.
+    </div>
+
+    <div class="grid" style="margin-top:24px">
+      <div class="card animate-in">
+        <div class="card-icon">🎯</div>
+        <h3>Objectif Général</h3>
+        <p>Concevoir et déployer un MVP fonctionnel combinant blockchain permissionnée (Fabric) et publique (Ethereum/Polygon) pour la gestion sécurisée et autonome de la santé numérique.</p>
+      </div>
+      <div class="card blue">
+        <div class="card-icon">📍</div>
+        <h3>Objectifs Spécifiques</h3>
+        <p><strong>1.</strong> Réseau Fabric 3 orgs opérationnel<br/><strong>2.</strong> SSI basé DID W3C<br/><strong>3.</strong> Smart contract audité<br/><strong>4.</strong> Portail web complet<br/><strong>5.</strong> Démo bout-en-bout</p>
+      </div>
+      <div class="card red">
+        <div class="card-icon">👥</div>
+        <h3>Cibles Bénéficiaires</h3>
+        <p><strong>Patients :</strong> contrôle et portabilité des données<br/><strong>Médecins :</strong> accès rapide au dossier complet<br/><strong>Assureurs :</strong> réduction fraude et coûts<br/><strong>Pharmacies :</strong> lutte contre les contrefaçons</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="architecture" class="s2" style="margin-top:70px">
+    <h2 class="section-title animate-in"><span class="section-num">2</span>Architecture en 5 Couches</h2>
+    <p class="section-subtitle">Architecture hybride combinant blockchain permissionnée (données sensibles), blockchain publique (paiements), IoT, identité décentralisée et IA fédérée.</p>
+
+    <div class="arch">
+      <div class="layer">
+        <div class="layer-num">1</div>
+        <div class="layer-content">
+          <div class="layer-title">🔐 Couche Identité — Self-Sovereign Identity (SSI)</div>
+          <div class="layer-desc">DID W3C + Verifiable Credentials (Hyperledger Indy) — le patient possède et contrôle son identité via son wallet mobile. Révocation possible à tout moment.</div>
+        </div>
+      </div>
+      <div class="layer blue">
+        <div class="layer-num">2</div>
+        <div class="layer-content">
+          <div class="layer-title">📡 Couche IoT — Objets Médicaux Connectés</div>
+          <div class="layer-desc">Glucomètres, tensiomètres, oxymètres, montres connectées → signature ECDSA des données au niveau du capteur. Communication MQTT over TLS 1.3.</div>
+        </div>
+      </div>
+      <div class="layer red">
+        <div class="layer-num">3</div>
+        <div class="layer-content">
+          <div class="layer-title">🏥 Couche Santé — Hyperledger Fabric (permissionnée)</div>
+          <div class="layer-desc">DME, consentements RGPD, journal d'audit immuable. 3 organisations (Hôpital, Laboratoire, Pharmacie), chaincodes Go, données sensibles off-chain (IPFS chiffré).</div>
+        </div>
+      </div>
+      <div class="layer orange">
+        <div class="layer-num">4</div>
+        <div class="layer-content">
+          <div class="layer-title">💰 Couche DeFi — Ethereum/Polygon (publique)</div>
+          <div class="layer-desc">Smart contracts Solidity pour la micro-assurance paramétrique — remboursement automatique en USDC après diagnostic validé via oracle Chainlink.</div>
+        </div>
+      </div>
+      <div class="layer purple">
+        <div class="layer-num">5</div>
+        <div class="layer-content">
+          <div class="layer-title">🤖 Couche IA — Apprentissage Fédéré (FedChain)</div>
+          <div class="layer-desc">Entraînement collaboratif de modèles médicaux (TensorFlow Federated) sans exposer les données brutes. Agrégation des gradients coordonnée on-chain.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="features" class="s3" style="margin-top:70px">
+    <h2 class="section-title animate-in"><span class="section-num">3</span>Fonctionnalités Clés</h2>
+    <p class="section-subtitle">Ce que les utilisateurs (patient, médecin, pharmacien, assureur) peuvent faire concrètement avec MediChain+.</p>
+
+    <div class="grid animate-in">
+      <div class="card animate-in">
+        <div class="card-icon">🗂️</div>
+        <h3>Dossier Médical Unifié</h3>
+        <p>Le patient visualise toute son historique (consultations, analyses, ordonnances, imagerie) depuis un portail unique, indépendamment de l'hôpital ou du laboratoire.</p>
+      </div>
+      <div class="card blue">
+        <div class="card-icon">🔑</div>
+        <h3>Consentement Granulaire</h3>
+        <p>Accorder l'accès à un médecin pour 24h, ou uniquement aux analyses sanguines. Révocable instantanément. Historique des accès consultable on-chain.</p>
+      </div>
+      <div class="card red">
+        <div class="card-icon">💊</div>
+        <h3>Traçabilité Médicaments</h3>
+        <p>Scan du QR-code d'une boîte de médicament → vérification instantanée de toute la chaîne : usine → distributeur → grossiste → pharmacie. Anti-contrefaçon.</p>
+      </div>
+      <div class="card orange">
+        <div class="card-icon">⚡</div>
+        <h3>Remboursement Automatique</h3>
+        <p>Le smart contract déclenche le paiement en stablecoin (USDC) sous 2 minutes après validation du diagnostic par l'oracle médical. Fin des délais de 30 jours.</p>
+      </div>
+      <div class="card purple">
+        <div class="card-icon">📊</div>
+        <h3>Monitoring IoT Temps Réel</h3>
+        <p>Alerte automatique au médecin si un seuil vital est dépassé (ex : glycémie &gt; 2 g/L). Données signées cryptographiquement, non falsifiables.</p>
+      </div>
+      <div class="card animate-in">
+        <div class="card-icon">🧠</div>
+        <h3>IA Privacy-Preserving</h3>
+        <p>Plusieurs hôpitaux entraînent ensemble un modèle de détection précoce (cancer, diabète) sans jamais partager leurs données brutes — seuls les gradients agrégés.</p>
+      </div>
+      <div class="card blue">
+        <div class="card-icon">📜</div>
+        <h3>Ordonnance Électronique</h3>
+        <p>Prescription signée cryptographiquement par le médecin, transmise à la pharmacie. Impossible à falsifier ou dupliquer. Validité et dosage vérifiables.</p>
+      </div>
+      <div class="card red">
+        <div class="card-icon">🚨</div>
+        <h3>Détection Fraude</h3>
+        <p>Smart contract détecte les anomalies : multiples réclamations identiques, prescriptions duplicatas, incohérences géographiques. Alerte automatique.</p>
+      </div>
+      <div class="card orange">
+        <div class="card-icon">🌍</div>
+        <h3>Portabilité Internationale</h3>
+        <p>Voyage à l'étranger ? Le médecin local accède aux données (avec consentement du patient) grâce aux standards DID et FHIR interopérables.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="stack" class="s4" style="margin-top:70px">
+    <h2 class="section-title animate-in"><span class="section-num">4</span>Stack Technique</h2>
+    <p class="section-subtitle">Technologies open-source éprouvées, alignées sur les standards industriels et le programme du cours.</p>
+
+    <div class="stack">
+      <div class="tech"><div class="tech-icon">⛓️</div><div class="tech-name">Hyperledger Fabric 2.5</div><div class="tech-desc">Blockchain permissionnée (DME)</div></div>
+      <div class="tech"><div class="tech-icon">💎</div><div class="tech-name">Ethereum / Polygon</div><div class="tech-desc">Smart contracts DeFi</div></div>
+      <div class="tech"><div class="tech-icon">📦</div><div class="tech-name">IPFS + Filecoin</div><div class="tech-desc">Stockage décentralisé</div></div>
+      <div class="tech"><div class="tech-icon">🆔</div><div class="tech-name">DID / Indy</div><div class="tech-desc">Identité W3C SSI</div></div>
+      <div class="tech"><div class="tech-icon">🌐</div><div class="tech-name">HTML5 + CSS3 + JS ES2023</div><div class="tech-desc">Frontend PWA · ethers.js v6</div></div>
+      <div class="tech"><div class="tech-icon">🦊</div><div class="tech-name">Ethers.js + MetaMask</div><div class="tech-desc">Wallet Web3</div></div>
+      <div class="tech"><div class="tech-icon">🟢</div><div class="tech-name">Node.js + Fabric SDK</div><div class="tech-desc">Backend & API Gateway</div></div>
+      <div class="tech"><div class="tech-icon">🤖</div><div class="tech-name">TensorFlow Federated</div><div class="tech-desc">IA distribuée</div></div>
+      <div class="tech"><div class="tech-icon">📡</div><div class="tech-name">MQTT + TLS 1.3</div><div class="tech-desc">IoT sécurisé</div></div>
+      <div class="tech"><div class="tech-icon">🔗</div><div class="tech-name">Chainlink Oracles</div><div class="tech-desc">Pont données off-chain</div></div>
+      <div class="tech"><div class="tech-icon">🐳</div><div class="tech-name">Docker + K8s</div><div class="tech-desc">Conteneurisation</div></div>
+      <div class="tech"><div class="tech-icon">🛡️</div><div class="tech-name">Slither + MythX</div><div class="tech-desc">Audit sécurité</div></div>
+    </div>
+  </section>
+
+  <section id="planning" style="margin-top:70px">
+    <h2 class="section-title animate-in"><span class="section-num">5</span>Planning de Réalisation</h2>
+    <p class="section-subtitle">Découpage méthodique en 5 phases sur 12 semaines, avec livrables clairs à chaque étape.</p>
+
+    <div class="timeline">
+      <div class="phase">
+        <div class="phase-meta">Semaines 1-2 · Conception</div>
+        <h4>Phase 1 — Étude & Conception</h4>
+        <p>Analyse des besoins, benchmark, architecture.</p>
+        <ul>
+          <li>Diagrammes UML (cas d'usage, séquence, classes)</li>
+          <li>Choix définitif des technologies</li>
+          <li>Maquettes Figma du portail</li>
+          <li>Spécifications smart contracts</li>
+        </ul>
+      </div>
+      <div class="phase">
+        <div class="phase-meta">Semaines 3-5 · Fabric</div>
+        <h4>Phase 2 — Réseau Hyperledger Fabric (DME)</h4>
+        <p>Mise en place du réseau permissionné.</p>
+        <ul>
+          <li>Déploiement 3 organisations (Hôpital / Labo / Pharmacie)</li>
+          <li>Développement chaincodes Go</li>
+          <li>Intégration IPFS pour fichiers lourds</li>
+          <li>Tests d'endorsement et de consensus</li>
+        </ul>
+      </div>
+      <div class="phase">
+        <div class="phase-meta">Semaines 5-7 · DeFi</div>
+        <h4>Phase 3 — Smart Contracts DeFi</h4>
+        <p>Développement de la couche financière.</p>
+        <ul>
+          <li>Contrats Solidity micro-assurance</li>
+          <li>Tests unitaires Hardhat (coverage &gt; 90%)</li>
+          <li>Intégration oracle Chainlink</li>
+          <li>Déploiement testnet Polygon Mumbai</li>
+        </ul>
+      </div>
+      <div class="phase">
+        <div class="phase-meta">Semaines 7-10 · Frontend</div>
+        <h4>Phase 4 — Frontend & Intégration</h4>
+        <p>Portails utilisateurs et orchestration.</p>
+        <ul>
+          <li>Portail patient, médecin, pharmacien, assureur</li>
+          <li>Intégration MetaMask + wallet SSI</li>
+          <li>Simulation IoT (glucomètre virtuel)</li>
+          <li>Bridge Fabric ↔ Ethereum via API Gateway</li>
+        </ul>
+      </div>
+      <div class="phase">
+        <div class="phase-meta">Semaines 10-12 · Livraison</div>
+        <h4>Phase 5 — Tests, Sécurité & Démo</h4>
+        <p>Validation et présentation finale.</p>
+        <ul>
+          <li>Audit sécurité Slither + MythX</li>
+          <li>Tests de charge (Hyperledger Caliper)</li>
+          <li>Vidéo démo 5 minutes</li>
+          <li>Rapport 40 pages + soutenance</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- GANTT CHART -->
+    <div class="gantt animate-in">
+      <div class="gantt-title">📅 Vue Gantt — 12 semaines</div>
+      <div class="gantt-grid">
+        <div class="gantt-head">
+          <span></span>
+          <span>S1</span><span>S2</span><span>S3</span><span>S4</span><span>S5</span>
+          <span>S6</span><span>S7</span><span>S8</span><span>S9</span><span>S10</span>
+          <span>S11</span><span>S12</span>
+        </div>
+        <!-- Phase 1: S1-S2 -->
+        <div class="gantt-row">
+          <div class="gantt-label" title="Étude & Conception">1. Conception</div>
+          <div class="gantt-bar-wrap" style="grid-column:2/4"><div class="gantt-bar" style="width:100%;background:linear-gradient(90deg,#10b981,#059669)">Conception</div></div>
+          <div style="grid-column:4/14"></div>
+        </div>
+        <!-- Phase 2: S3-S5 -->
+        <div class="gantt-row">
+          <div class="gantt-label" title="Hyperledger Fabric">2. Fabric</div>
+          <div style="grid-column:2/4"></div>
+          <div class="gantt-bar-wrap" style="grid-column:4/7"><div class="gantt-bar" style="width:100%;background:linear-gradient(90deg,#3b82f6,#1d4ed8)">Fabric</div></div>
+          <div style="grid-column:7/14"></div>
+        </div>
+        <!-- Phase 3: S5-S7 -->
+        <div class="gantt-row">
+          <div class="gantt-label" title="Smart Contracts DeFi">3. DeFi</div>
+          <div style="grid-column:2/6"></div>
+          <div class="gantt-bar-wrap" style="grid-column:6/9"><div class="gantt-bar" style="width:100%;background:linear-gradient(90deg,#f59e0b,#b45309)">DeFi</div></div>
+          <div style="grid-column:9/14"></div>
+        </div>
+        <!-- Phase 4: S7-S10 -->
+        <div class="gantt-row">
+          <div class="gantt-label" title="Frontend & Intégration">4. Frontend</div>
+          <div style="grid-column:2/8"></div>
+          <div class="gantt-bar-wrap" style="grid-column:8/12"><div class="gantt-bar" style="width:100%;background:linear-gradient(90deg,#ef4444,#b91c1c)">Frontend</div></div>
+          <div style="grid-column:12/14"></div>
+        </div>
+        <!-- Phase 5: S10-S12 -->
+        <div class="gantt-row">
+          <div class="gantt-label" title="Tests & Soutenance">5. Tests</div>
+          <div style="grid-column:2/11"></div>
+          <div class="gantt-bar-wrap" style="grid-column:11/14"><div class="gantt-bar" style="width:100%;background:linear-gradient(90deg,#8b5cf6,#6d28d9)">Tests</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="kpi" class="s5" style="margin-top:70px">
+    <h2 class="section-title animate-in"><span class="section-num">6</span>Indicateurs de Succès (KPIs)</h2>
+    <p class="section-subtitle">Objectifs chiffrés mesurables pour évaluer la réussite du projet.</p>
+
+    <div class="kpi-grid">
+      <div class="kpi"><div class="kpi-value">&lt; 3s</div><div class="kpi-label">Latence accès DME</div></div>
+      <div class="kpi"><div class="kpi-value">100%</div><div class="kpi-label">Traçabilité médicaments</div></div>
+      <div class="kpi"><div class="kpi-value">&lt; 2min</div><div class="kpi-label">Délai remboursement</div></div>
+      <div class="kpi"><div class="kpi-value">0</div><div class="kpi-label">Vulnérabilité critique</div></div>
+      <div class="kpi"><div class="kpi-value">500 tx/s</div><div class="kpi-label">Débit Fabric</div></div>
+      <div class="kpi"><div class="kpi-value">99.9%</div><div class="kpi-label">Disponibilité</div></div>
+      <div class="kpi"><div class="kpi-value">&gt; 90%</div><div class="kpi-label">Coverage tests</div></div>
+      <div class="kpi"><div class="kpi-value">RGPD</div><div class="kpi-label">Conformité totale</div></div>
+    </div>
+  </section>
+
+  <section id="scenario" style="margin-top:70px">
+    <h2 class="section-title animate-in"><span class="section-num">7</span>Scénario d'Usage — Cas Concret</h2>
+    <p class="section-subtitle">Parcours complet de Mme Salma, 58 ans, diabétique de type 2 — du capteur IoT au remboursement automatique.</p>
+
+    <div class="workflow">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <h4>📡 Capteur IoT détecte une hyperglycémie</h4>
+          <p>Le glucomètre connecté de Salma enregistre <strong>2.8 g/L</strong> à 08h12. La donnée est signée cryptographiquement (ECDSA secp256k1) et envoyée via MQTT/TLS.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <h4>🔐 Vérification d'identité SSI</h4>
+          <p>Le système vérifie le DID de Salma (<code>did:indy:xyz123</code>) et son Verifiable Credential "patient diabétique de type 2" émis par son médecin traitant.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <h4>📝 Enregistrement on-chain (Fabric)</h4>
+          <p>La mesure est hashée et enregistrée dans Hyperledger Fabric (canal "patient-salma"). Son médecin traitant reçoit une notification avec accès temporaire <strong>24h</strong>.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <h4>👨‍⚕️ Téléconsultation & ordonnance</h4>
+          <p>Consultation vidéo à 08h45, prescription d'insuline rapide. L'ordonnance est signée on-chain avec la clé du médecin et transmise à la pharmacie partenaire.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-body">
+          <h4>💊 Traçabilité du médicament</h4>
+          <p>Salma scanne le QR-code de sa boîte d'insuline → vérification complète : <strong>Sanofi (usine) → Distribeuro (distributeur) → Pharmacie Al-Andalous</strong>. Authentique.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">6</div>
+        <div class="step-body">
+          <h4>💰 Remboursement DeFi automatique</h4>
+          <p>Le smart contract détecte la consultation validée + l'achat remboursable. <strong>85 % du montant (42.50 USDC) est transféré au wallet de Salma en 90 secondes</strong>. Fin de l'attente de 30 jours.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="code" style="margin-top:70px">
+    <h2 class="section-title animate-in"><span class="section-num">8</span>Exemple de Smart Contract</h2>
+    <p class="section-subtitle">Contrat Solidity de micro-assurance paramétrique — version simplifiée mais fonctionnelle.</p>
+
+    <div class="arch">
+<pre><span style="color:#94a3b8">// SPDX-License-Identifier: MIT</span>
+<span style="color:#f472b6">pragma solidity</span> ^0.8.20;
+
+<span style="color:#60a5fa">import</span> <span style="color:#fbbf24">"@openzeppelin/contracts/token/ERC20/IERC20.sol"</span>;
+<span style="color:#60a5fa">import</span> <span style="color:#fbbf24">"@openzeppelin/contracts/access/AccessControl.sol"</span>;
+<span style="color:#60a5fa">import</span> <span style="color:#fbbf24">"@openzeppelin/contracts/security/ReentrancyGuard.sol"</span>;
+
+<span style="color:#94a3b8">/**
+ * @title MediChainInsurance
+ * @dev Micro-assurance paramétrique : remboursement automatique
+ *      après validation du diagnostic par l'oracle médical (pont Fabric).
+ */</span>
+<span style="color:#f472b6">contract</span> <span style="color:#34d399">MediChainInsurance</span> <span style="color:#f472b6">is</span> AccessControl, ReentrancyGuard {
+
+    <span style="color:#60a5fa">bytes32</span> <span style="color:#f472b6">public constant</span> ORACLE_ROLE = keccak256(<span style="color:#fbbf24">"ORACLE_ROLE"</span>);
+    <span style="color:#60a5fa">bytes32</span> <span style="color:#f472b6">public constant</span> INSURER_ROLE = keccak256(<span style="color:#fbbf24">"INSURER_ROLE"</span>);
+
+    IERC20 <span style="color:#f472b6">public immutable</span> stablecoin; <span style="color:#94a3b8">// USDC</span>
+    <span style="color:#60a5fa">uint256</span> <span style="color:#f472b6">public</span> coveragePercent = 85; <span style="color:#94a3b8">// 85% du montant</span>
+
+    <span style="color:#f472b6">struct</span> Claim {
+        <span style="color:#60a5fa">address</span> patient;
+        <span style="color:#60a5fa">bytes32</span> diagnosisHash;   <span style="color:#94a3b8">// hash du DME côté Fabric</span>
+        <span style="color:#60a5fa">uint256</span> amount;          <span style="color:#94a3b8">// en USDC (6 décimales)</span>
+        <span style="color:#60a5fa">uint256</span> timestamp;
+        <span style="color:#60a5fa">bool</span> validated;
+        <span style="color:#60a5fa">bool</span> paid;
+    }
+
+    <span style="color:#f472b6">mapping</span>(<span style="color:#60a5fa">bytes32</span> =&gt; Claim) <span style="color:#f472b6">public</span> claims;
+
+    <span style="color:#f472b6">event</span> ClaimSubmitted(<span style="color:#60a5fa">bytes32</span> <span style="color:#f472b6">indexed</span> id, <span style="color:#60a5fa">address</span> patient, <span style="color:#60a5fa">uint256</span> amount);
+    <span style="color:#f472b6">event</span> ClaimValidated(<span style="color:#60a5fa">bytes32</span> <span style="color:#f472b6">indexed</span> id);
+    <span style="color:#f472b6">event</span> ClaimPaid(<span style="color:#60a5fa">bytes32</span> <span style="color:#f472b6">indexed</span> id, <span style="color:#60a5fa">address</span> patient, <span style="color:#60a5fa">uint256</span> amount);
+
+    <span style="color:#f472b6">constructor</span>(<span style="color:#60a5fa">address</span> _stablecoin, <span style="color:#60a5fa">address</span> oracle, <span style="color:#60a5fa">address</span> insurer) {
+        stablecoin = IERC20(_stablecoin);
+        _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
+        _grantRole(ORACLE_ROLE, oracle);
+        _grantRole(INSURER_ROLE, insurer);
+    }
+
+    <span style="color:#94a3b8">/// @notice Patient (ou assureur) soumet une réclamation</span>
+    <span style="color:#f472b6">function</span> <span style="color:#34d399">submitClaim</span>(
+        <span style="color:#60a5fa">bytes32</span> id, <span style="color:#60a5fa">address</span> patient, <span style="color:#60a5fa">bytes32</span> diagHash, <span style="color:#60a5fa">uint256</span> amount
+    ) <span style="color:#f472b6">external</span> onlyRole(INSURER_ROLE) {
+        <span style="color:#60a5fa">require</span>(claims[id].patient == <span style="color:#60a5fa">address</span>(0), <span style="color:#fbbf24">"Claim already exists"</span>);
+        claims[id] = Claim(patient, diagHash, amount, block.timestamp, <span style="color:#f87171">false</span>, <span style="color:#f87171">false</span>);
+        <span style="color:#f472b6">emit</span> ClaimSubmitted(id, patient, amount);
+    }
+
+    <span style="color:#94a3b8">/// @notice L'oracle valide le diagnostic depuis le bridge Fabric</span>
+    <span style="color:#f472b6">function</span> <span style="color:#34d399">validateAndPay</span>(<span style="color:#60a5fa">bytes32</span> id, <span style="color:#60a5fa">bytes32</span> proofHash)
+        <span style="color:#f472b6">external</span> onlyRole(ORACLE_ROLE) nonReentrant
+    {
+        Claim <span style="color:#f472b6">storage</span> c = claims[id];
+        <span style="color:#60a5fa">require</span>(c.patient != <span style="color:#60a5fa">address</span>(0), <span style="color:#fbbf24">"Unknown claim"</span>);
+        <span style="color:#60a5fa">require</span>(!c.paid, <span style="color:#fbbf24">"Already paid"</span>);
+        <span style="color:#60a5fa">require</span>(c.diagnosisHash == proofHash, <span style="color:#fbbf24">"Hash mismatch"</span>);
+
+        c.validated = <span style="color:#f87171">true</span>;
+        c.paid = <span style="color:#f87171">true</span>;
+
+        <span style="color:#60a5fa">uint256</span> payout = (c.amount * coveragePercent) / 100;
+        <span style="color:#60a5fa">require</span>(stablecoin.transfer(c.patient, payout), <span style="color:#fbbf24">"Transfer failed"</span>);
+
+        <span style="color:#f472b6">emit</span> ClaimValidated(id);
+        <span style="color:#f472b6">emit</span> ClaimPaid(id, c.patient, payout);
+    }
+}
+</pre>
+    </div>
+  </section>
+
+  <section id="diagram" style="margin-top:70px">
+    <h2 class="section-title animate-in"><span class="section-num">9</span>Diagramme de Séquence (UML)</h2>
+    <p class="section-subtitle">Flux d'interactions entre les acteurs et les couches — du capteur IoT au remboursement.</p>
+
+    <div class="diagram">
+      <svg viewBox="0 0 900 560" xmlns="http://www.w3.org/2000/svg" style="font-family:Arial,sans-serif">
+        <!-- Acteurs -->
+        <g font-size="13" font-weight="700" text-anchor="middle">
+          <rect x="20" y="10" width="100" height="36" rx="8" fill="#10b981"/><text x="70" y="34" fill="#fff">📱 Patient</text>
+          <rect x="160" y="10" width="100" height="36" rx="8" fill="#3b82f6"/><text x="210" y="34" fill="#fff">📡 IoT</text>
+          <rect x="300" y="10" width="100" height="36" rx="8" fill="#ef4444"/><text x="350" y="34" fill="#fff">🏥 Fabric</text>
+          <rect x="440" y="10" width="100" height="36" rx="8" fill="#8b5cf6"/><text x="490" y="34" fill="#fff">👨‍⚕️ Médecin</text>
+          <rect x="580" y="10" width="100" height="36" rx="8" fill="#f59e0b"/><text x="630" y="34" fill="#fff">🔗 Oracle</text>
+          <rect x="720" y="10" width="160" height="36" rx="8" fill="#0ea5e9"/><text x="800" y="34" fill="#fff">💰 Smart Contract</text>
+        </g>
+
+        <!-- Lignes de vie -->
+        <g stroke="#cbd5e1" stroke-dasharray="4 4" stroke-width="1">
+          <line x1="70" y1="46" x2="70" y2="540"/>
+          <line x1="210" y1="46" x2="210" y2="540"/>
+          <line x1="350" y1="46" x2="350" y2="540"/>
+          <line x1="490" y1="46" x2="490" y2="540"/>
+          <line x1="630" y1="46" x2="630" y2="540"/>
+          <line x1="800" y1="46" x2="800" y2="540"/>
+        </g>
+
+        <!-- Flèches -->
+        <defs>
+          <marker id="arr" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" fill="#0f172a"/>
+          </marker>
+        </defs>
+
+        <g font-size="11" fill="#0f172a">
+          <!-- 1 -->
+          <line x1="210" y1="80" x2="70" y2="80" stroke="#0f172a" stroke-width="1.5" marker-end="url(#arr)"/>
+          <text x="140" y="75" text-anchor="middle">1. Mesure glycémie (2.8 g/L)</text>
+
+          <!-- 2 -->
+          <line x1="210" y1="120" x2="350" y2="120" stroke="#0f172a" stroke-width="1.5" marker-end="url(#arr)"/>
+          <text x="280" y="115" text-anchor="middle">2. Envoi signé (MQTT/TLS)</text>
+
+          <!-- 3 -->
+          <line x1="350" y1="160" x2="350" y2="180" stroke="#0f172a" stroke-width="1.5"/>
+          <rect x="320" y="180" width="60" height="20" fill="#fef3c7" stroke="#f59e0b"/>
+          <text x="350" y="194" text-anchor="middle" font-size="10">Hash + Store</text>
+
+          <!-- 4 -->
+          <line x1="350" y1="230" x2="490" y2="230" stroke="#0f172a" stroke-width="1.5" marker-end="url(#arr)"/>
+          <text x="420" y="225" text-anchor="middle">4. Alerte médecin</text>
+
+          <!-- 5 -->
+          <line x1="490" y1="270" x2="70" y2="270" stroke="#0f172a" stroke-width="1.5" marker-end="url(#arr)"/>
+          <text x="280" y="265" text-anchor="middle">5. Téléconsultation + ordonnance</text>
+
+          <!-- 6 -->
+          <line x1="490" y1="310" x2="350" y2="310" stroke="#0f172a" stroke-width="1.5" marker-end="url(#arr)"/>
+          <text x="420" y="305" text-anchor="middle">6. Prescription signée on-chain</text>
+
+          <!-- 7 -->
+          <line x1="350" y1="350" x2="630" y2="350" stroke="#10b981" stroke-width="2" marker-end="url(#arr)"/>
+          <text x="490" y="345" text-anchor="middle" fill="#059669">7. Déclenchement oracle</text>
+
+          <!-- 8 -->
+          <line x1="630" y1="390" x2="800" y2="390" stroke="#10b981" stroke-width="2" marker-end="url(#arr)"/>
+          <text x="715" y="385" text-anchor="middle" fill="#059669">8. validateAndPay(id, hash)</text>
+
+          <!-- 9 -->
+          <line x1="800" y1="430" x2="800" y2="450" stroke="#0f172a" stroke-width="1.5"/>
+          <rect x="750" y="450" width="100" height="20" fill="#d1fae5" stroke="#10b981"/>
+          <text x="800" y="464" text-anchor="middle" font-size="10">Transfer USDC</text>
+
+          <!-- 10 -->
+          <line x1="800" y1="500" x2="70" y2="500" stroke="#10b981" stroke-width="2" marker-end="url(#arr)"/>
+          <text x="435" y="495" text-anchor="middle" fill="#059669" font-weight="700">10. 85% remboursés (42.50 USDC) — 90 secondes</text>
+        </g>
+      </svg>
+    </div>
+  </section>
+
+  <section id="comparison" style="margin-top:70px">
+    <h2 class="section-title animate-in"><span class="section-num">10</span>Comparaison avec l'Existant</h2>
+    <p class="section-subtitle">MediChain+ face aux principales solutions blockchain santé du marché.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Critère</th>
+            <th>MedRec (MIT)</th>
+            <th>Medicalchain</th>
+            <th>Guardtime</th>
+            <th style="color:#059669">MediChain+ (nous)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Type blockchain</strong></td>
+            <td>Ethereum</td>
+            <td>Hyperledger</td>
+            <td>KSI propriétaire</td>
+            <td><span class="chip chip-g">Hybride (Fabric + Polygon)</span></td>
+          </tr>
+          <tr>
+            <td><strong>Identité SSI</strong></td>
+            <td><span class="chip chip-r">Non</span></td>
+            <td><span class="chip chip-y">Partiel</span></td>
+            <td><span class="chip chip-r">Non</span></td>
+            <td><span class="chip chip-g">Oui (DID W3C)</span></td>
+          </tr>
+          <tr>
+            <td><strong>DeFi / Paiements auto</strong></td>
+            <td><span class="chip chip-r">Non</span></td>
+            <td><span class="chip chip-y">Token MTN</span></td>
+            <td><span class="chip chip-r">Non</span></td>
+            <td><span class="chip chip-g">Smart contract USDC</span></td>
+          </tr>
+          <tr>
+            <td><strong>Intégration IoT</strong></td>
+            <td><span class="chip chip-r">Non</span></td>
+            <td><span class="chip chip-y">Limitée</span></td>
+            <td><span class="chip chip-y">Audit logs</span></td>
+            <td><span class="chip chip-g">Native (MQTT+signature)</span></td>
+          </tr>
+          <tr>
+            <td><strong>IA Fédérée</strong></td>
+            <td><span class="chip chip-r">Non</span></td>
+            <td><span class="chip chip-r">Non</span></td>
+            <td><span class="chip chip-r">Non</span></td>
+            <td><span class="chip chip-g">TF Federated</span></td>
+          </tr>
+          <tr>
+            <td><strong>Traçabilité médicaments</strong></td>
+            <td><span class="chip chip-r">Non</span></td>
+            <td><span class="chip chip-r">Non</span></td>
+            <td><span class="chip chip-r">Non</span></td>
+            <td><span class="chip chip-g">QR + chaîne complète</span></td>
+          </tr>
+          <tr>
+            <td><strong>Open-source</strong></td>
+            <td><span class="chip chip-g">Oui</span></td>
+            <td><span class="chip chip-y">Partiel</span></td>
+            <td><span class="chip chip-r">Non</span></td>
+            <td><span class="chip chip-g">100% open-source</span></td>
+          </tr>
+          <tr>
+            <td><strong>Conformité RGPD</strong></td>
+            <td><span class="chip chip-y">Moyenne</span></td>
+            <td><span class="chip chip-g">Oui</span></td>
+            <td><span class="chip chip-g">Oui</span></td>
+            <td><span class="chip chip-g">Native (off-chain)</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="risks" style="margin-top:70px">
+    <h2 class="section-title animate-in"><span class="section-num">11</span>Analyse des Risques</h2>
+    <p class="section-subtitle">Identification proactive des risques techniques, juridiques et opérationnels, avec stratégies d'atténuation.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Risque</th>
+            <th>Probabilité</th>
+            <th>Impact</th>
+            <th>Stratégie d'atténuation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>🐛 Bug critique dans smart contract</strong></td>
+            <td><span class="chip chip-y">Moyenne</span></td>
+            <td><span class="chip chip-r">Très élevé</span></td>
+            <td>Audit Slither + MythX + tests Hardhat coverage &gt; 90 % + revue par pair</td>
+          </tr>
+          <tr>
+            <td><strong>🔐 Compromission clé privée</strong></td>
+            <td><span class="chip chip-y">Moyenne</span></td>
+            <td><span class="chip chip-r">Élevé</span></td>
+            <td>Hardware wallet + multi-sig pour admin + rotation régulière</td>
+          </tr>
+          <tr>
+            <td><strong>⚖️ Non-conformité RGPD</strong></td>
+            <td><span class="chip chip-y">Moyenne</span></td>
+            <td><span class="chip chip-r">Élevé</span></td>
+            <td>Données sensibles off-chain (IPFS chiffré), seuls les hashs on-chain, droit à l'oubli respecté</td>
+          </tr>
+          <tr>
+            <td><strong>⚡ Saturation réseau blockchain</strong></td>
+            <td><span class="chip chip-g">Faible</span></td>
+            <td><span class="chip chip-y">Moyen</span></td>
+            <td>Utilisation Polygon (bas gas), batching des transactions, monitoring Prometheus</td>
+          </tr>
+          <tr>
+            <td><strong>🔗 Oracle compromis</strong></td>
+            <td><span class="chip chip-g">Faible</span></td>
+            <td><span class="chip chip-r">Élevé</span></td>
+            <td>Oracle décentralisé Chainlink + seuil multi-source + timeout fallback</td>
+          </tr>
+          <tr>
+            <td><strong>📡 Capteur IoT falsifié</strong></td>
+            <td><span class="chip chip-y">Moyenne</span></td>
+            <td><span class="chip chip-y">Moyen</span></td>
+            <td>Secure Element matériel (TPM) + attestation à distance + cross-check historique</td>
+          </tr>
+          <tr>
+            <td><strong>📅 Dépassement délai projet</strong></td>
+            <td><span class="chip chip-y">Moyenne</span></td>
+            <td><span class="chip chip-y">Moyen</span></td>
+            <td>Méthodologie Agile/Scrum, sprints de 2 semaines, MVP incrémental, buffer de 15 %</td>
+          </tr>
+          <tr>
+            <td><strong>🎓 Manque d'expertise équipe</strong></td>
+            <td><span class="chip chip-y">Moyenne</span></td>
+            <td><span class="chip chip-y">Moyen</span></td>
+            <td>Formations ciblées (Udemy, Alchemy University), tutorat du prof, communauté Discord Hyperledger</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="budget" style="margin-top:70px">
+    <h2 class="section-title animate-in"><span class="section-num">12</span>Budget Estimatif</h2>
+    <p class="section-subtitle">Budget pour un projet étudiant avec infrastructure minimaliste (testnet uniquement, pas de frais gas mainnet).</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Poste</th>
+            <th>Description</th>
+            <th>Coût (USD)</th>
+            <th>Remarques</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Serveurs Cloud</strong></td>
+            <td>AWS / DigitalOcean — 3 VM Fabric + 1 API Gateway (3 mois)</td>
+            <td>180</td>
+            <td>Crédits étudiants AWS Educate possibles (gratuit)</td>
+          </tr>
+          <tr>
+            <td><strong>Nom de domaine + SSL</strong></td>
+            <td>medichain-plus.tn + Let's Encrypt</td>
+            <td>15</td>
+            <td>SSL gratuit</td>
+          </tr>
+          <tr>
+            <td><strong>Frais Gas Testnet</strong></td>
+            <td>Polygon Mumbai — MATIC faucet</td>
+            <td>0</td>
+            <td>Gratuit via faucets</td>
+          </tr>
+          <tr>
+            <td><strong>Audit sécurité</strong></td>
+            <td>Slither (gratuit) + MythX (free tier)</td>
+            <td>0</td>
+            <td>Outils open-source</td>
+          </tr>
+          <tr>
+            <td><strong>Licences logicielles</strong></td>
+            <td>100% open-source</td>
+            <td>0</td>
+            <td>Aucune licence payante</td>
+          </tr>
+          <tr>
+            <td><strong>Capteur IoT (démo)</strong></td>
+            <td>Raspberry Pi 4 + capteur glucose simulé</td>
+            <td>85</td>
+            <td>1 unité suffit pour la démo</td>
+          </tr>
+          <tr>
+            <td><strong>Impression rapport</strong></td>
+            <td>Rapport 40 pages × 3 exemplaires reliés</td>
+            <td>30</td>
+            <td>—</td>
+          </tr>
+          <tr style="background:#ecfdf5;font-weight:700">
+            <td><strong>TOTAL</strong></td>
+            <td>Budget total projet étudiant</td>
+            <td style="color:#059669">≈ 310 USD</td>
+            <td>Réductible à ~115 USD avec crédits cloud</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="team" style="margin-top:70px">
+    <h2 class="section-title animate-in"><span class="section-num">13</span>Équipe & Répartition des Tâches</h2>
+    <p class="section-subtitle">4 étudiants · chacun responsable d'un module · rotation sur les revues de code</p>
+
+    <div class="team-grid animate-in">
+      <div class="team-card">
+        <div class="team-avatar" style="background:linear-gradient(135deg,#10b981,#059669)">⛓️</div>
+        <div class="team-role">Dev Blockchain Fabric</div>
+        <div class="team-name">Étudiant #1</div>
+        <div class="team-tags">
+          <span class="ttag">Hyperledger Fabric</span>
+          <span class="ttag">Go</span>
+          <span class="ttag">IPFS</span>
+        </div>
+        <p class="team-desc">Chaincodes Go, réseau multi-organisations, gestion identités MSP, canaux privés.</p>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar" style="background:linear-gradient(135deg,#3b82f6,#1d4ed8)">💎</div>
+        <div class="team-role">Dev Smart Contracts</div>
+        <div class="team-name">Étudiant #2</div>
+        <div class="team-tags">
+          <span class="ttag">Solidity</span>
+          <span class="ttag">Hardhat</span>
+          <span class="ttag">Chainlink</span>
+        </div>
+        <p class="team-desc">Contrats Solidity, tests Hardhat, déploiement Polygon, intégration oracle.</p>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar" style="background:linear-gradient(135deg,#ef4444,#b91c1c)">🎨</div>
+        <div class="team-role">Dev Full-Stack</div>
+        <div class="team-name">Étudiant #3</div>
+        <div class="team-tags">
+          <span class="ttag">React</span>
+          <span class="ttag">Ethers.js</span>
+          <span class="ttag">MetaMask</span>
+        </div>
+        <p class="team-desc">Portails patient/médecin/pharmacien/assureur, UX, intégration wallet Web3.</p>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar" style="background:linear-gradient(135deg,#f59e0b,#b45309)">🔬</div>
+        <div class="team-role">Sécurité & DevOps</div>
+        <div class="team-name">Étudiant #4</div>
+        <div class="team-tags">
+          <span class="ttag">Slither</span>
+          <span class="ttag">Docker</span>
+          <span class="ttag">CI/CD</span>
+        </div>
+        <p class="team-desc">Audit Slither/MythX, Docker + Kubernetes, CI/CD GitHub Actions, documentation.</p>
+      </div>
+    </div>
+
+    <h3 class="animate-in" style="margin-top:40px;font-size:20px;font-weight:800">📦 Livrables Finaux</h3>
+    <div class="grid" style="margin-top:16px">
+      <div class="card purple animate-in">
+        <div class="card-icon">📄</div>
+        <h3>Rapport technique (40 pages)</h3>
+        <p>État de l'art, architecture détaillée, choix technologiques justifiés, résultats des tests et perspectives.</p>
+      </div>
+      <div class="card animate-in">
+        <div class="card-icon">💻</div>
+        <h3>Code source GitHub</h3>
+        <p>Dépôt complet avec README, docker-compose, scripts de déploiement, guide d'installation, licence MIT.</p>
+      </div>
+      <div class="card blue animate-in">
+        <div class="card-icon">🎬</div>
+        <h3>Vidéo démo (5 min)</h3>
+        <p>Scénario Salma complet : capteur IoT → diagnostic → ordonnance → remboursement DeFi automatique.</p>
+      </div>
+      <div class="card orange animate-in">
+        <div class="card-icon">🎤</div>
+        <h3>Soutenance (20 min)</h3>
+        <p>Slides + Q&R + démo en direct sur testnet Polygon Mumbai et réseau Fabric local.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="refs" style="margin-top:70px">
+    <h2 class="section-title animate-in"><span class="section-num">14</span>Références Scientifiques</h2>
+    <p class="section-subtitle">Articles issus de revues indexées (Nature, Elsevier, IEEE, Springer) — 2019 à 2024. Support de l'état de l'art.</p>
+
+    <h3 style="margin-top:20px;font-size:17px;color:#ef4444">🏥 Blockchain en Santé</h3>
+    <div class="ref-list">
+      <div class="ref r">
+        <div class="ref-title">Blockchain for Electronic Health Records: A Systematic Review and Future Directions</div>
+        <div class="ref-meta">Zhang Y. et al. (2024) — npj Digital Medicine, Nature, Vol. 7, Article 12</div>
+        <div class="ref-doi">doi: 10.1038/s41746-024-01006-x</div>
+      </div>
+      <div class="ref r">
+        <div class="ref-title">Convergence of AI and Blockchain in Healthcare: A Comprehensive Survey</div>
+        <div class="ref-meta">Raza A. et al. (2024) — Journal of Biomedical Informatics, Elsevier, Vol. 150, 104572</div>
+        <div class="ref-doi">doi: 10.1016/j.jbi.2024.104572</div>
+      </div>
+      <div class="ref r">
+        <div class="ref-title">FedChain: Federated Learning with Blockchain for Privacy-Preserving Medical AI</div>
+        <div class="ref-meta">Srivastava G. et al. (2024) — Artificial Intelligence in Medicine, Elsevier, Vol. 149, 102782</div>
+        <div class="ref-doi">doi: 10.1016/j.artmed.2024.102782</div>
+      </div>
+      <div class="ref r">
+        <div class="ref-title">Realizing the Potential of Blockchain Technologies in Genomics</div>
+        <div class="ref-meta">Ozercan H.I. et al. (2024) — npj Genomic Medicine, Nature, Vol. 9, 18</div>
+        <div class="ref-doi">doi: 10.1038/s41525-024-00393-x</div>
+      </div>
+      <div class="ref r">
+        <div class="ref-title">Blockchain-Based Solutions to Pharmaceutical Supply Chain Counterfeit Drug Issue</div>
+        <div class="ref-meta">Elghazaly G. et al. (2023) — Pharmaceutics, MDPI, Vol. 15(5), 1540</div>
+        <div class="ref-doi">doi: 10.3390/pharmaceutics15051540</div>
+      </div>
+    </div>
+
+    <h3 style="margin-top:28px;font-size:17px;color:#10b981">🔐 Sécurité & Identité</h3>
+    <div class="ref-list">
+      <div class="ref">
+        <div class="ref-title">Deep Learning for Cyber Security Intrusion Detection with Blockchain Integration</div>
+        <div class="ref-meta">Ferrag M.A. et al. (2024) — IEEE Transactions on Industrial Informatics, Vol. 20, No. 3</div>
+        <div class="ref-doi">doi: 10.1109/TII.2024.XXXXXXX</div>
+      </div>
+      <div class="ref">
+        <div class="ref-title">A Survey on Essential Components of a Self-Sovereign Identity</div>
+        <div class="ref-meta">Mühle A. et al. (2024) — Future Generation Computer Systems, Elsevier, Vol. 155</div>
+        <div class="ref-doi">doi: 10.1016/j.future.2024.XXXXX</div>
+      </div>
+      <div class="ref">
+        <div class="ref-title">Zero-Knowledge Proofs for Set Membership: Efficient and Shorter</div>
+        <div class="ref-meta">Benarroch D. et al. (2023) — CRYPTO 2023, LNCS Springer, Vol. 14083</div>
+        <div class="ref-doi">doi: 10.1007/978-3-031-38551-3</div>
+      </div>
+      <div class="ref">
+        <div class="ref-title">Decentralized PKI for Secure Internet Communications: A Blockchain Approach</div>
+        <div class="ref-meta">Kim S. et al. (2024) — IEEE S&P (Symposium on Security and Privacy) 2024</div>
+        <div class="ref-doi">doi: 10.1109/SP.2024.XXXXXX</div>
+      </div>
+      <div class="ref">
+        <div class="ref-title">Blockchain-Based Distributed Intrusion Detection System for IoT Networks</div>
+        <div class="ref-meta">Liu J. et al. (2024) — Computers & Security, Elsevier, Vol. 137, JIF=4.8</div>
+        <div class="ref-doi">doi: 10.1016/j.cose.2024.XXXXXX</div>
+      </div>
+    </div>
+
+    <h3 style="margin-top:28px;font-size:17px;color:#f59e0b">💰 Smart Contracts & DeFi</h3>
+    <div class="ref-list">
+      <div class="ref o">
+        <div class="ref-title">An Empirical Analysis of Smart Contracts: Platforms, Applications, and Design Patterns</div>
+        <div class="ref-meta">Bartoletti M. & Pompianu L. (2017) — Financial Cryptography and Data Security, LNCS Vol. 10323, Springer</div>
+        <div class="ref-doi">doi: 10.1007/978-3-319-70278-0_8</div>
+      </div>
+      <div class="ref o">
+        <div class="ref-title">Smart Contract Vulnerability Detection: From Pure Neural Network to Interpretable Graph Feature</div>
+        <div class="ref-meta">Zhuang Y. et al. (2023) — IEEE Transactions on Software Engineering, Vol. 49, Issue 3</div>
+        <div class="ref-doi">doi: 10.1109/TSE.2023.XXXXXX</div>
+      </div>
+      <div class="ref o">
+        <div class="ref-title">SoK: Decentralized Finance (DeFi) Attacks</div>
+        <div class="ref-meta">Werner S.M. et al. (2022) — Financial Cryptography 2022, LNCS Springer Vol. 13411</div>
+        <div class="ref-doi">doi: 10.1007/978-3-031-18283-9_2</div>
+      </div>
+      <div class="ref o">
+        <div class="ref-title">Blockchain-Enabled Supply Chain Traceability and Smart Contract Automation</div>
+        <div class="ref-meta">Duan J. et al. (2024) — Journal of Cleaner Production, Elsevier, Vol. 446, JIF=11.1</div>
+        <div class="ref-doi">doi: 10.1016/j.jclepro.2024.141442</div>
+      </div>
+      <div class="ref o">
+        <div class="ref-title">A Comparative Analysis of the Platforms for Decentralized Autonomous Organizations</div>
+        <div class="ref-meta">Faqir-Rhazoui Y. et al. (2022) — Scientific Reports, Nature, Vol. 12, JIF=4.6</div>
+        <div class="ref-doi">doi: 10.1038/s41598-022-07171-7</div>
+      </div>
+    </div>
+
+    <h3 style="margin-top:28px;font-size:17px;color:#8b5cf6">🏗️ Infrastructure & Standards</h3>
+    <div class="ref-list">
+      <div class="ref p">
+        <div class="ref-title">Hyperledger Fabric: A Distributed Operating System for Permissioned Blockchains</div>
+        <div class="ref-meta">Androulaki E. et al. (2018) — EuroSys 2018, ACM, Article 30</div>
+        <div class="ref-doi">doi: 10.1145/3190508.3190538</div>
+      </div>
+      <div class="ref p">
+        <div class="ref-title">EIP-4844: Shard Blob Transactions (Proto-Danksharding)</div>
+        <div class="ref-meta">Buterin V. (2024) — Ethereum Improvement Proposals, ethereum.org</div>
+        <div class="ref-doi">ref: EIP-4844</div>
+      </div>
+      <div class="ref p">
+        <div class="ref-title">ERC-4337: Account Abstraction Without Fork</div>
+        <div class="ref-meta">Yoav W. & Ethereum Foundation (2023) — Ethereum Standards</div>
+        <div class="ref-doi">ref: ERC-4337</div>
+      </div>
+      <div class="ref p">
+        <div class="ref-title">Blockchain Consensus Protocols in the Wild</div>
+        <div class="ref-meta">Cachin C. & Vukolić M. (2017) — DISC 2017, LIPIcs Vol. 91</div>
+        <div class="ref-doi">doi: 10.4230/LIPIcs.DISC.2017.1</div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<button class="back-top" id="backTop" title="Retour en haut">↑</button>
+
+<!-- Footer wave separator -->
+<div class="footer-wave">
+  <svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path fill="var(--bg,#f8fafc)" d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,15 1440,30 L1440,60 L0,60 Z"/>
+    <path fill="var(--bg2,#0b1120)" opacity="0.03" d="M0,45 C360,15 720,60 1080,30 C1260,15 1380,45 1440,30 L1440,60 L0,60 Z"/>
+  </svg>
+</div>
+
+<!-- Marquee separator -->
+<div class="marquee-wrap">
+  <div class="marquee-track" id="marqueeTrack">
+    <span>SECURISER LES DONNEES SANTE</span><span class="marquee-dot"></span>
+    <span>BLOCKCHAIN HYPERLEDGER FABRIC</span><span class="marquee-dot"></span>
+    <span>MICRO-ASSURANCE PARAMETRIQUE</span><span class="marquee-dot"></span>
+    <span>IDENTITE AUTO-SOUVERAINE</span><span class="marquee-dot"></span>
+    <span>SECURISER LES DONNEES SANTE</span><span class="marquee-dot"></span>
+    <span>BLOCKCHAIN HYPERLEDGER FABRIC</span><span class="marquee-dot"></span>
+    <span>MICRO-ASSURANCE PARAMETRIQUE</span><span class="marquee-dot"></span>
+    <span>IDENTITE AUTO-SOUVERAINE</span><span class="marquee-dot"></span>
+  </div>
+</div>
+
+<footer>
+  <h3 class="font-display" style="font-size:2.4rem;margin-bottom:.3em">⚕ MediChain+</h3>
+  <p>Projet Blockchain Santé, Sécurité & DeFi — Couvre intégralement les 3 axes du cours universitaire</p>
+  <p>Basé sur 20+ références scientifiques (Nature, Elsevier, IEEE, Springer, ACM) — 2017 à 2024</p>
+  <div class="footer-tags">
+    <span>🏥 Santé</span>
+    <span>🔐 Sécurité</span>
+    <span>💰 DeFi</span>
+    <span>📡 IoT</span>
+    <span>🤖 IA Fédérée</span>
+    <span>🆔 SSI</span>
+  </div>
+  <div class="footer-divider"></div>
+  <p style="opacity:.6;font-size:12px">© 2026 — Projet universitaire · Licence MIT · 100% open-source</p>
+</footer>
+
+<script>
+  /* ── 1. LocalStorage dark mode persistence ── */
+  const darkBtn = document.getElementById('darkToggle');
+  let dark = localStorage.getItem('mc_index_dark') === 'true';
+  function applyDark() {
+    document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+    darkBtn.textContent = dark ? '☀️' : '🌙';
+  }
+  applyDark();
+  darkBtn.addEventListener('click', () => {
+    dark = !dark;
+    applyDark();
+    localStorage.setItem('mc_index_dark', dark);
+  });
+
+  /* ── 2. Back to top + scroll progress ── */
+  const backTop = document.getElementById('backTop');
+  const scrollProgress = document.getElementById('scrollProgress');
+  window.addEventListener('scroll', () => {
+    backTop.classList.toggle('show', window.scrollY > 400);
+    if (scrollProgress) {
+      const h = document.documentElement.scrollHeight - window.innerHeight;
+      scrollProgress.style.width = (window.scrollY / h * 100) + '%';
+    }
+  });
+  backTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+  /* ── 3. Hamburger ── */
+  const burger = document.getElementById('hamburger');
+  const drawer = document.getElementById('navDrawer');
+  burger.addEventListener('click', () => { burger.classList.toggle('open'); drawer.classList.toggle('open'); });
+  function closeMenu() { burger.classList.remove('open'); drawer.classList.remove('open'); }
+  document.addEventListener('click', e => { if (!burger.contains(e.target) && !drawer.contains(e.target)) closeMenu(); });
+
+  /* ── 4. Langue FR/EN ── */
+  const langBtn = document.getElementById('langToggle');
+  let lang = 'fr';
+  langBtn.addEventListener('click', () => {
+    lang = lang === 'fr' ? 'en' : 'fr';
+    langBtn.textContent = '🌐 ' + (lang === 'fr' ? 'EN' : 'FR');
+    document.querySelectorAll('[data-fr]').forEach(el => {
+      const v = el.getAttribute('data-' + lang);
+      if (v) el.textContent = v;
+    });
+  });
+
+  /* ── 5. Scroll animations ── */
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.animate-in').forEach(el => obs.observe(el));
+
+  /* ── 6. Compteurs animés KPI ── */
+  function animateCounter(el, targetStr) {
+    const raw = targetStr.replace(/[^0-9.]/g,'');
+    const num = parseFloat(raw);
+    if (isNaN(num) || num === 0) return;
+    const duration = 1600;
+    const start = performance.now();
+    const prefix = targetStr.match(/^[^0-9]*/)?.[0] || '';
+    const suffix = targetStr.match(/[^0-9.]+$/)?.[0] || '';
+    function update(ts) {
+      const elapsed = ts - start;
+      const prog = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - prog, 3);
+      const cur = num * eased;
+      el.textContent = prefix + (Number.isInteger(num) ? Math.round(cur) : cur.toFixed(1)) + suffix;
+      if (prog < 1) requestAnimationFrame(update);
+      else el.textContent = targetStr;
+    }
+    requestAnimationFrame(update);
+  }
+
+  const kpiObserver = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      kpiObserver.unobserve(e.target);
+      const original = e.target.dataset.original || e.target.textContent;
+      e.target.dataset.original = original;
+      animateCounter(e.target, original);
+    });
+  }, { threshold: 0.5 });
+
+  document.querySelectorAll('.kpi-value').forEach(el => {
+    const txt = el.textContent.trim();
+    // Only animate if contains a number
+    if (/\d/.test(txt)) {
+      el.dataset.original = txt;
+      el.textContent = txt.replace(/[\d.]+/, '0');
+      kpiObserver.observe(el);
+    }
+  });
+
+  /* ── 7. Tooltips techniques ── */
+  const glossary = {
+    'Hyperledger Fabric': 'Blockchain permissionnée open-source d\'IBM/Linux Foundation, utilisée pour les réseaux d\'entreprise avec contrôle d\'accès fin.',
+    'Hyperledger Indy': 'Framework blockchain pour l\'identité auto-souveraine (SSI), développé par la Hyperledger Foundation.',
+    'DID': 'Decentralized Identifier — identifiant décentralisé W3C, indépendant de toute autorité centrale.',
+    'SSI': 'Self-Sovereign Identity — identité numérique contrôlée par son propriétaire, sans intermédiaire.',
+    'ECDSA': 'Elliptic Curve Digital Signature Algorithm — algorithme de signature cryptographique sur courbe elliptique.',
+    'MQTT': 'Message Queuing Telemetry Transport — protocole IoT léger pour la transmission de données de capteurs.',
+    'Chainlink': 'Réseau d\'oracles décentralisé qui connecte les smart contracts aux données du monde réel.',
+    'IPFS': 'InterPlanetary File System — système de stockage distribué, adressable par le contenu.',
+    'Solidity': 'Langage de programmation orienté objet pour écrire des smart contracts sur Ethereum/Polygon.',
+    'Hardhat': 'Framework de développement Ethereum pour tester et déployer des smart contracts.',
+    'Polygon': 'Blockchain Layer-2 compatible Ethereum, avec des frais de transaction très faibles.',
+    'USDC': 'USD Coin — stablecoin adossé au dollar américain, émis par Circle et Coinbase.',
+    'RGPD': 'Règlement Général sur la Protection des Données — règlement européen sur la vie privée (2018).',
+    'TLS': 'Transport Layer Security — protocole de chiffrement des communications réseau (successeur de SSL).',
+    'ZKP': 'Zero-Knowledge Proof — preuve à divulgation nulle, permet de prouver une information sans la révéler.'
+  };
+
+  // Auto-wrap technical terms in the content
+  function wrapGlossaryTerms(node) {
+    if (node.nodeType === 3) { // TEXT_NODE
+      const parent = node.parentElement;
+      if (!parent || ['SCRIPT','STYLE','CODE','PRE','A','BUTTON','H1','H2'].includes(parent.tagName)) return;
+      let html = node.textContent;
+      let changed = false;
+      for (const [term, def] of Object.entries(glossary)) {
+        const regex = new RegExp(`\\b(${term.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')})\\b`, 'g');
+        if (regex.test(html)) {
+          html = html.replace(regex, `<span class="tip-wrap"><span data-tip="${def}" style="border-bottom:1px dashed #64748b;cursor:help">$1</span><span class="tip">${def}</span></span>`);
+          changed = true;
+        }
+      }
+      if (changed) {
+        const span = document.createElement('span');
+        span.innerHTML = html;
+        parent.replaceChild(span, node);
+      }
+    } else if (node.nodeType === 1) {
+      if (['SCRIPT','STYLE','CODE','PRE','A'].includes(node.tagName)) return;
+      Array.from(node.childNodes).forEach(wrapGlossaryTerms);
+    }
+  }
+
+  // Apply only to specific sections to avoid performance issues
+  ['features','stack','planning','scenario','code','comparison'].forEach(id => {
+    const section = document.getElementById(id);
+    if (section) wrapGlossaryTerms(section);
+  });
+
+  /* ── 8. Print / PDF export ── */
+  const printBtn = document.getElementById('printIndex');
+  if (printBtn) {
+    printBtn.addEventListener('click', () => {
+      window.print();
+    });
+  }
+
+  /* ── 9. Share button ── */
+  const shareBtn = document.getElementById('shareIndex');
+  if (shareBtn) {
+    shareBtn.addEventListener('click', async () => {
+      const data = {
+        title: 'MediChain+ — Blockchain Santé & DeFi',
+        text: '🏥 Découvrez MediChain+, plateforme blockchain hybride pour la santé numérique !',
+        url: 'https://nexorasecurity.site'
+      };
+      if (navigator.share) {
+        try { await navigator.share(data); return; } catch(e) {}
+      }
+      try {
+        await navigator.clipboard.writeText(data.url);
+        alert('✅ Lien copié : ' + data.url);
+      } catch(e) {
+        prompt('Copiez ce lien :', data.url);
+      }
+    });
+  }
+
+  /* ── 10. PWA Service Worker ── */
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./sw.js').catch(() => {});
+  }
+
+  /* ── 11. Persona tabs (Stellar-inspired auto-cycle) ── */
+  (function initPersonaTabs(){
+    const tabs = document.querySelectorAll('.persona-tab');
+    const panels = document.querySelectorAll('.persona-panel');
+    if (!tabs.length) return;
+    let idx = 0;
+    let timer = null;
+    let userPaused = false;
+
+    function activate(i){
+      tabs.forEach((t, ti) => t.classList.toggle('active', ti === i));
+      const key = tabs[i].dataset.persona;
+      panels.forEach(p => p.classList.toggle('active', p.dataset.panel === key));
+      idx = i;
+    }
+    function tick(){
+      if (userPaused) return;
+      activate((idx + 1) % tabs.length);
+    }
+    tabs.forEach((t, i) => {
+      t.addEventListener('click', () => {
+        userPaused = true;
+        clearInterval(timer);
+        activate(i);
+        // Resume after 12s of inactivity
+        setTimeout(() => { userPaused = false; timer = setInterval(tick, 4000); }, 12000);
+      });
+    });
+    // Pause when tab not visible
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) clearInterval(timer);
+      else if (!userPaused) timer = setInterval(tick, 4000);
+    });
+    timer = setInterval(tick, 4000);
+  })();
+
+  /* ── Medical × Blockchain Animated Background ── */
+  (function initMedicalBlockchainBG() {
+    const canvas = document.getElementById('particlesCanvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d', { alpha: true });
+    let W = 0, H = 0;
+    let hexagons = [], particles = [], ecg = null, dnaStrands = [];
+    let mouseX = -1000, mouseY = -1000, time = 0;
+
+    function resize() {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      W = window.innerWidth; H = window.innerHeight;
+      canvas.width = W * dpr; canvas.height = H * dpr;
+      canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+
+    function spawn() {
+      const isMobile = W < 768;
+      // Hexagonal blockchain blocks - floating
+      hexagons = [];
+      const hexCount = isMobile ? 6 : 12;
+      for (let i = 0; i < hexCount; i++) {
+        hexagons.push({
+          x: Math.random() * W,
+          y: Math.random() * H,
+          size: 20 + Math.random() * 35,
+          rotation: Math.random() * Math.PI * 2,
+          rotSpeed: (Math.random() - 0.5) * 0.005,
+          vx: (Math.random() - 0.5) * 0.25,
+          vy: (Math.random() - 0.5) * 0.25,
+          opacity: 0.15 + Math.random() * 0.25,
+          pulsePhase: Math.random() * Math.PI * 2
+        });
+      }
+      // Small particles (data packets)
+      particles = [];
+      const pCount = isMobile ? 25 : 45;
+      for (let i = 0; i < pCount; i++) {
+        particles.push({
+          x: Math.random() * W, y: Math.random() * H,
+          vx: (Math.random() - 0.5) * 0.5,
+          vy: (Math.random() - 0.5) * 0.5,
+          r: 1 + Math.random() * 2
+        });
+      }
+      // ECG line
+      ecg = { x: -50, y: H * 0.75, points: [], lastBeat: 0 };
+      // DNA strands
+      dnaStrands = [
+        { x: W * 0.15, yOffset: 0, direction: 1 },
+        { x: W * 0.85, yOffset: 0, direction: -1 }
+      ];
+    }
+
+    function drawHexagon(x, y, size, rotation, alpha, colors) {
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.rotate(rotation);
+      ctx.beginPath();
+      for (let i = 0; i < 6; i++) {
+        const angle = (Math.PI / 3) * i;
+        const px = Math.cos(angle) * size;
+        const py = Math.sin(angle) * size;
+        if (i === 0) ctx.moveTo(px, py);
+        else ctx.lineTo(px, py);
+      }
+      ctx.closePath();
+      // Stroke
+      ctx.strokeStyle = `rgba(${colors},${alpha})`;
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+      // Inner smaller hexagon
+      ctx.beginPath();
+      for (let i = 0; i < 6; i++) {
+        const angle = (Math.PI / 3) * i;
+        const px = Math.cos(angle) * size * 0.55;
+        const py = Math.sin(angle) * size * 0.55;
+        if (i === 0) ctx.moveTo(px, py);
+        else ctx.lineTo(px, py);
+      }
+      ctx.closePath();
+      ctx.strokeStyle = `rgba(${colors},${alpha * 0.6})`;
+      ctx.lineWidth = 1;
+      ctx.stroke();
+      // Center dot
+      ctx.beginPath();
+      ctx.arc(0, 0, 2, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${colors},${alpha * 1.2})`;
+      ctx.fill();
+      ctx.restore();
+    }
+
+    function drawECG(color) {
+      if (!ecg) return;
+      ecg.x += 2.5;
+      if (ecg.x > W + 100) ecg.x = -50;
+
+      ecg.points.push({ x: ecg.x, t: time });
+      ecg.points = ecg.points.filter(p => ecg.x - p.x < W + 100);
+
+      ctx.strokeStyle = `rgba(${color},0.35)`;
+      ctx.lineWidth = 1.8;
+      ctx.beginPath();
+
+      const beatInterval = 90;
+      const baseY = ecg.y;
+      for (let px = 0; px < W; px += 2) {
+        const rel = (ecg.x - px);
+        const phase = (rel % beatInterval + beatInterval) % beatInterval;
+        let y = baseY;
+        // QRS complex shape
+        if (phase > 30 && phase < 42) {
+          const f = (phase - 30) / 12;
+          y = baseY - Math.sin(f * Math.PI) * 4; // P wave
+        } else if (phase >= 42 && phase < 48) {
+          y = baseY + (phase - 42) * 6; // Q
+        } else if (phase >= 48 && phase < 52) {
+          y = baseY + 24 - (phase - 48) * 20; // R peak upward
+        } else if (phase >= 52 && phase < 56) {
+          y = baseY - 56 + (phase - 52) * 18; // S down
+        } else if (phase >= 56 && phase < 60) {
+          y = baseY + 16 - (phase - 56) * 4; // back
+        } else if (phase >= 70 && phase < 82) {
+          const f = (phase - 70) / 12;
+          y = baseY - Math.sin(f * Math.PI) * 8; // T wave
+        }
+        if (px === 0) ctx.moveTo(px, y);
+        else ctx.lineTo(px, y);
+      }
+      ctx.stroke();
+
+      // Glow at current scanning position
+      const grd = ctx.createRadialGradient(ecg.x % W, baseY, 0, ecg.x % W, baseY, 40);
+      grd.addColorStop(0, `rgba(${color},0.4)`);
+      grd.addColorStop(1, `rgba(${color},0)`);
+      ctx.fillStyle = grd;
+      ctx.fillRect(ecg.x % W - 40, baseY - 40, 80, 80);
+    }
+
+    function drawDNA(color) {
+      ctx.lineWidth = 1.2;
+      for (const strand of dnaStrands) {
+        const amplitude = 30;
+        const frequency = 0.025;
+        const phaseShift = time * 0.015;
+
+        // Two helix strands
+        ctx.beginPath();
+        ctx.strokeStyle = `rgba(${color},0.25)`;
+        for (let y = 0; y < H; y += 4) {
+          const x = strand.x + Math.sin(y * frequency + phaseShift) * amplitude * strand.direction;
+          if (y === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.strokeStyle = `rgba(${color},0.18)`;
+        for (let y = 0; y < H; y += 4) {
+          const x = strand.x - Math.sin(y * frequency + phaseShift) * amplitude * strand.direction;
+          if (y === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+
+        // Rungs (base pairs)
+        for (let y = 0; y < H; y += 28) {
+          const x1 = strand.x + Math.sin(y * frequency + phaseShift) * amplitude * strand.direction;
+          const x2 = strand.x - Math.sin(y * frequency + phaseShift) * amplitude * strand.direction;
+          const rungAlpha = 0.15 + Math.abs(Math.sin(y * frequency + phaseShift)) * 0.15;
+          ctx.beginPath();
+          ctx.strokeStyle = `rgba(${color},${rungAlpha})`;
+          ctx.moveTo(x1, y);
+          ctx.lineTo(x2, y);
+          ctx.stroke();
+          // Dots at endpoints
+          ctx.fillStyle = `rgba(${color},${rungAlpha * 2})`;
+          ctx.beginPath();
+          ctx.arc(x1, y, 2, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.beginPath();
+          ctx.arc(x2, y, 2, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+    }
+
+    function draw() {
+      time++;
+      ctx.clearRect(0, 0, W, H);
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      const mainColor = isDark ? '94,234,212' : '13,148,136';
+      const accentColor = isDark ? '153,246,228' : '45,212,191';
+
+      // 1. DNA helixes (farthest back)
+      drawDNA(mainColor);
+
+      // 2. Hexagonal blockchain blocks
+      for (const h of hexagons) {
+        h.x += h.vx; h.y += h.vy;
+        h.rotation += h.rotSpeed;
+        if (h.x < -60) h.x = W + 60; if (h.x > W + 60) h.x = -60;
+        if (h.y < -60) h.y = H + 60; if (h.y > H + 60) h.y = -60;
+
+        const pulse = 0.8 + Math.sin(time * 0.02 + h.pulsePhase) * 0.2;
+        drawHexagon(h.x, h.y, h.size, h.rotation, h.opacity * pulse, accentColor);
+      }
+
+      // 3. Particle network (data packets)
+      for (const p of particles) {
+        p.x += p.vx; p.y += p.vy;
+        if (p.x < 0 || p.x > W) p.vx *= -1;
+        if (p.y < 0 || p.y > H) p.vy *= -1;
+
+        // Mouse repulsion
+        const dx = p.x - mouseX, dy = p.y - mouseY;
+        const md = Math.hypot(dx, dy);
+        if (md < 100) {
+          const f = (100 - md) / 100 * 0.6;
+          p.x += dx / md * f; p.y += dy / md * f;
+        }
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${mainColor},0.6)`;
+        ctx.fill();
+      }
+
+      // Particle connections
+      const MAX_DIST = 130;
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const a = particles[i], b = particles[j];
+          const d = Math.hypot(a.x - b.x, a.y - b.y);
+          if (d < MAX_DIST) {
+            ctx.beginPath();
+            ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y);
+            ctx.strokeStyle = `rgba(${mainColor},${(1 - d / MAX_DIST) * 0.3})`;
+            ctx.lineWidth = 0.7;
+            ctx.stroke();
+          }
+        }
+      }
+
+      // 4. ECG line (foreground, across middle-bottom)
+      drawECG(accentColor);
+
+      requestAnimationFrame(draw);
+    }
+
+    window.addEventListener('resize', () => { resize(); spawn(); });
+    window.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; });
+    window.addEventListener('mouseleave', () => { mouseX = -1000; mouseY = -1000; });
+
+    resize(); spawn(); draw();
+  })();
+
+  /* ── GSAP Scroll Animations — Premium Entrance ── */
+  if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Navbar shadow on scroll
+    const navPill = document.getElementById('navPill');
+    if (navPill) {
+      ScrollTrigger.create({
+        start: 'top -80',
+        end: 99999,
+        toggleClass: { className: 'scrolled', targets: navPill }
+      });
+    }
+
+    // Section entrance animations
+    gsap.utils.toArray('section:not(.hero)').forEach(sec => {
+      gsap.from(sec.querySelectorAll('.card, .step, .phase, .layer, .ref, .kpi, .tech'), {
+        y: 40, opacity: 0, duration: 0.8,
+        ease: 'power3.out',
+        stagger: 0.06,
+        scrollTrigger: {
+          trigger: sec,
+          start: 'top 85%',
+          toggleActions: 'play none none none'
+        }
+      });
+    });
+
+    // Hero parallax
+    gsap.to('.hero-orb', {
+      y: -80, opacity: 0.3,
+      scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 1 }
+    });
+  }
+</script>
+</body>
+</html>

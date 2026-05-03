@@ -1,0 +1,28 @@
+{
+  "name": "MediChain+ — Blockchain Santé",
+  "short_name": "MediChain+",
+  "description": "Plateforme hybride Blockchain pour la santé numérique : DME sécurisé, SSI, micro-assurance DeFi et IoT médical",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0b1120",
+  "theme_color": "#10b981",
+  "orientation": "any",
+  "lang": "fr",
+  "categories": ["health", "finance", "education"],
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230b1120'/><rect x='5' y='5' width='90' height='90' rx='16' fill='url(%23g)'/><defs><linearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='%2310b981'/><stop offset='100%25' stop-color='%233b82f6'/></linearGradient></defs><text x='50' y='68' font-size='52' text-anchor='middle'>⚕</text></svg>",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Démo interactive",
+      "url": "./app.html",
+      "description": "Ouvrir la démo blockchain MediChain+"
+    }
+  ]
+}

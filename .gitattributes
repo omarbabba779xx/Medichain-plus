@@ -1,0 +1,23 @@
+# Auto-detect text files, enforce LF line-endings for text
+* text=auto eol=lf
+
+# Binary files — never convert line endings
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.webp binary
+*.svg binary
+*.pdf binary
+*.zip binary
+*.tar binary
+*.gz binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.eot binary
+*.mp4 binary
+*.mov binary
+*.wav binary
+*.mp3 binary
