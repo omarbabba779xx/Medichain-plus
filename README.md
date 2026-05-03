@@ -4,10 +4,14 @@
 
 # MediChain+
 
-### Parametric Micro-Insurance for Pharmaceutical Prescriptions
+### Full-Stack Blockchain Healthcare Platform
+#### Parametric Micro-Insurance for Pharmaceutical Prescriptions
 
-> Instant USDC disbursement the moment a prescription is dispensed on a Hyperledger Fabric private ledger —  
-> no manual adjudication, no paperwork, no delays.
+> **MediChain+** is a production-grade, dual-blockchain platform that automates pharmaceutical insurance claims end-to-end —  
+> from prescription issuance in a hospital to instant USDC payment in the patient's wallet,  
+> with **zero manual adjudication**, **zero paperwork**, and **zero trust assumptions**.  
+> Built on Hyperledger Fabric 2.5 (permissioned private ledger) + Polygon Amoy (public EVM),  
+> connected by a resilient Node.js event bridge and secured by an 8-job CI pipeline.
 
 <br/>
 
@@ -28,13 +32,30 @@
 
 ## Overview
 
-MediChain+ bridges two blockchain paradigms to deliver **parametric insurance** in healthcare:
+### The Problem
 
-- A **Hyperledger Fabric 2.5** private network manages the full prescription lifecycle between hospitals (`HospitalMSP`) and pharmacies (`PharmacyMSP`) — keeping sensitive patient data off any public chain.
-- A **Solidity smart contract** on **Polygon Amoy** holds a USDC treasury and automatically disburses funds the instant a dispensation event is relayed and validated.
-- A **Node.js event bridge** translates Fabric chaincode events into Ethereum transactions in real time, with retry logic, persistent cursor, and zero-address protection.
+Traditional pharmaceutical insurance involves days of manual claim review, paperwork, adjudication delays, and opaque reimbursement processes. Patients wait. Pharmacies chase payments. Hospitals deal with administrative overhead. The system is slow by design — and expensive by consequence.
 
-No intermediary. No manual claim review. The code is the insurer.
+### The Solution
+
+**MediChain+** eliminates the middleman entirely by turning the insurance contract itself into executable code.
+
+When a doctor issues a prescription on the **Hyperledger Fabric** private ledger, a cryptographic hash of the diagnosis is anchored on-chain. The moment a pharmacist fills that prescription, a **Node.js bridge relayer** detects the `PrescriptionDispensed` event and automatically triggers a `validateAndPay()` call on the **Solidity smart contract** deployed on **Polygon Amoy** — transferring USDC directly to the patient's Ethereum wallet. No human decision. No delay. No paperwork.
+
+### Architecture in Three Layers
+
+| Layer | Technology | Role |
+|---|---|---|
+| **Permissioned Ledger** | Hyperledger Fabric 2.5 · Go 1.21 · CouchDB | Private prescription lifecycle — `HospitalMSP` issues, `PharmacyMSP` fills. PHI never leaves this layer. |
+| **Event Bridge** | Node.js ESM · ethers v6 | Translates Fabric chaincode events into Polygon transactions in real time, with 5× retry, persistent block cursor, and zero-address guard. |
+| **Public Smart Contract** | Solidity 0.8.20 · OpenZeppelin v4.9 · Polygon Amoy | Holds USDC treasury. Enforces role separation, claim expiry, coverage snapshots, and reentrancy protection. Pays out automatically. |
+
+### Why It Matters
+
+- **For patients** — USDC reimbursement lands in seconds, not weeks.
+- **For pharmacies** — No claim filing. No follow-up calls. The blockchain is the insurer.
+- **For regulators** — Every transaction is on-chain, auditable, and timestamped. Full GDPR Art. 35 DPIA and French HDS compliance documentation included.
+- **For developers** — A reference implementation of a dual-chain (Fabric + EVM) production system, with a complete security audit (19 findings, all fixed), 8-job CI pipeline, and SARIF-based static analysis.
 
 ---
 
