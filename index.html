@@ -1269,10 +1269,13 @@
   });
 
   /* ── 5. Scroll animations ── */
+  // Immediately mark visible — transform-only entrance, no opacity conflict
+  document.querySelectorAll('.animate-in').forEach(el => el.classList.add('visible'));
+  // Also observe for staggered reveal
   const obs = new IntersectionObserver(entries => {
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
-  }, { threshold: 0.08 });
-  document.querySelectorAll('.animate-in').forEach(el => obs.observe(el));
+  }, { threshold: 0.04 });
+  document.querySelectorAll('.animate-in:not(.visible)').forEach(el => obs.observe(el));
 
   /* ── 6. Compteurs animés KPI ── */
   function animateCounter(el, targetStr) {
@@ -1707,15 +1710,15 @@
       });
     }
 
-    // Section entrance animations
+    // Section entrance animations — y-only, no opacity (prevents invisible sections)
     gsap.utils.toArray('section:not(.hero)').forEach(sec => {
-      gsap.from(sec.querySelectorAll('.card, .step, .phase, .layer, .ref, .kpi, .tech'), {
-        y: 40, opacity: 0, duration: 0.8,
+      gsap.from(sec.querySelectorAll('.card, .step, .phase, .layer, .ref, .kpi, .tech, .team-card, .sec-item, .stat-pill'), {
+        y: 28, duration: 0.75,
         ease: 'power3.out',
-        stagger: 0.06,
+        stagger: 0.05,
         scrollTrigger: {
           trigger: sec,
-          start: 'top 85%',
+          start: 'top 88%',
           toggleActions: 'play none none none'
         }
       });
